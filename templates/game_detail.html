@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ game.name }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1b2838;
+            color: #c7d5e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 50px 0;
+        }
+        .content img {
+            max-width: 100%;
+            height: auto;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+        .back-link {
+            margin: 20px 0;
+        }
+        .back-link a {
+            color: #c7d5e0;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #2a475e;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ game.name }} ({{ game.release_date }})</h1>
+        <p><strong>Genre:</strong> {{ game.genre }}</p>
+        <p><strong>Developer:</strong> {{ game.developer }}</p>
+        <p><strong>Type:</strong> {{ game.type }}</p>
+        <p><strong>Recommendations:</strong> {{ game.recommendation_count }}</p>
+        <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
+        <p><strong>summary:</strong> {{ game.summary }}</p>
+        <div class="content">
+            {% if game.detailed_description %}
+                {{ game.detailed_description|safe }}
+            {% else %}
+                <p>No description available for this game.</p>
+            {% endif %}
+        </div>
+        <div class="back-link">
+            <a href="{% url 'steam_searcher_list' %}?q={{ search_query }}">Back to search results</a>
+        </div>
+    </div>
+</body>
+</html>

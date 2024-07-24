@@ -1,6 +1,6 @@
 <!-- http://localhost:8000/steamsearcher -->
 
-<!-- 기존 검색 -->
+<!-- 새로 추가 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,13 +108,12 @@
         {% if page_obj.object_list %}
             {% for game in page_obj %}
                 <div class="game">
-                    <h2>{{ game.name }} ({{ game.release_date }})</h2>
+                    <h2><a href="{% url 'game_detail' game.appid %}">{{ game.name }} ({{ game.release_date }})</a></h2>
                     <p><strong>Genre:</strong> {{ game.genre }}</p>
                     <p><strong>Developer:</strong> {{ game.developer }}</p>
                     <p><strong>Type:</strong> {{ game.type }}</p>
                     <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>
-                    <p><strong>Description:</strong> {{ game.detailed_description|linebreaks }}</p>
-                    <!-- 추가 -->
+                    <!-- <p><strong>Description:</strong> {{ game.detailed_description|linebreaks }}</p> -->
                     <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
                     <p><strong>summary:</strong> {{ game.summary }}</p>
                 </div>
@@ -151,153 +150,3 @@
     {% endif %}
 </body>
 </html>
-
-{## 키워드 검색#}
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
-{#    <title>Steam Searcher</title>#}
-{#    <style>#}
-{#        body {#}
-{#            font-family: 'Arial', sans-serif;#}
-{#            background-color: #1b2838;#}
-{#            color: #c7d5e0;#}
-{#            margin: 0;#}
-{#            padding: 0;#}
-{#            display: flex;#}
-{#            flex-direction: column;#}
-{#            align-items: center;#}
-{#        }#}
-{#        .search-container {#}
-{#            margin: 50px;#}
-{#            text-align: center;#}
-{#        }#}
-{#        .search-container h1 {#}
-{#            font-size: 2.5em;#}
-{#            margin-bottom: 20px;#}
-{#        }#}
-{#        .search-container form {#}
-{#            display: flex;#}
-{#            justify-content: center;#}
-{#            width: 100%;#}
-{#            max-width: 600px;#}
-{#        }#}
-{#        .search-container input[type="text"] {#}
-{#            width: 80%;#}
-{#            padding: 10px;#}
-{#            font-size: 1.2em;#}
-{#            border: 1px solid #ccc;#}
-{#            border-radius: 5px 0 0 5px;#}
-{#            box-sizing: border-box;#}
-{#        }#}
-{#        .search-container button {#}
-{#            padding: 10px 20px;#}
-{#            font-size: 1.2em;#}
-{#            border: 1px solid #ccc;#}
-{#            border-left: none;#}
-{#            border-radius: 0 5px 5px 0;#}
-{#            background-color: #2a475e;#}
-{#            color: #c7d5e0;#}
-{#            cursor: pointer;#}
-{#        }#}
-{#        .search-container button:hover {#}
-{#            background-color: #1b2838;#}
-{#        }#}
-{#        .game-list {#}
-{#            width: 80%;#}
-{#            max-width: 1000px;#}
-{#            margin: 20px 0;#}
-{#        }#}
-{#        .game {#}
-{#            border: 1px solid #2a475e;#}
-{#            padding: 20px;#}
-{#            margin: 10px 0;#}
-{#            border-radius: 5px;#}
-{#            background-color: #2a475e;#}
-{#        }#}
-{#        .game h2 {#}
-{#            margin: 0 0 10px 0;#}
-{#            font-size: 1.5em;#}
-{#        }#}
-{#        .game p {#}
-{#            margin: 5px 0;#}
-{#        }#}
-{#        .pagination {#}
-{#            display: flex;#}
-{#            justify-content: center;#}
-{#            margin: 20px 0;#}
-{#        }#}
-{#        .pagination a, .pagination span {#}
-{#            margin: 0 5px;#}
-{#            padding: 10px 15px;#}
-{#            border: 1px solid #ccc;#}
-{#            text-decoration: none;#}
-{#            color: #c7d5e0;#}
-{#            border-radius: 5px;#}
-{#            background-color: #2a475e;#}
-{#        }#}
-{#        .pagination .current {#}
-{#            font-weight: bold;#}
-{#            background-color: #1b2838;#}
-{#        }#}
-{#        .pagination .disabled {#}
-{#            color: #555;#}
-{#        }#}
-{#    </style>#}
-{#</head>#}
-{#<body>#}
-{#    <div class="search-container">#}
-{#        <h1>Steam Searcher</h1>#}
-{#        <form method="GET">#}
-{#            <input type="text" name="q" placeholder="Search..." value="{{ search_query }}">#}
-{#            <button type="submit">Search</button>#}
-{#        </form>#}
-{#    </div>#}
-{#    {% if page_obj %}#}
-{#    <div class="game-list">#}
-{#        {% if page_obj.object_list %}#}
-{#            {% for game in page_obj %}#}
-{#                <div class="game">#}
-{#                    <h2>{{ game.name }} ({{ game.release_date }})</h2>#}
-{#                    <p><strong>Genre:</strong> {{ game.genre }}</p>#}
-{#                    <p><strong>Developer:</strong> {{ game.developer }}</p>#}
-{#                    <p><strong>Type:</strong> {{ game.type }}</p>#}
-{#                    <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>#}
-{#                    <p><strong>Description:</strong> {{ game.detailed_description|linebreaks }}</p>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        {% else %}#}
-{#            <p>No games found matching your search criteria.</p>#}
-{#        {% endif %}#}
-{#    </div>#}
-{#    <div class="pagination">#}
-{#        {% if page_obj.has_previous %}#}
-{#            <a href="?q={{ search_query }}&page=1">&laquo; first</a>#}
-{#            <a href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">previous</a>#}
-{#        {% else %}#}
-{#            <span class="disabled">&laquo; first</span>#}
-{#            <span class="disabled">previous</span>#}
-{#        {% endif %}#}
-{##}
-{#        {% for num in page_obj.paginator.page_range %}#}
-{#            {% if page_obj.number == num %}#}
-{#                <span class="current">{{ num }}</span>#}
-{#            {% else %}#}
-{#                <a href="?q={{ search_query }}&page={{ num }}">{{ num }}</a>#}
-{#            {% endif %}#}
-{#        {% endfor %}#}
-{##}
-{#        {% if page_obj.has_next %}#}
-{#            <a href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next</a>#}
-{#            <a href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
-{#        {% else %}#}
-{#            <span class="disabled">next</span>#}
-{#            <span class="disabled">last &raquo;</span>#}
-{#        {% endif %}#}
-{#    </div>#}
-{#    {% endif %}#}
-{#</body>#}
-{#</html>#}
-{##}
