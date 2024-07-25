@@ -15,6 +15,7 @@ class SteamSearcher(models.Model):
     # 2024-07-25
     description_phrases = models.JSONField()
 
+
     # 출시일 데이터처리
     def formatted_release_date(self):
         if self.release_date == "1970-01-01":
