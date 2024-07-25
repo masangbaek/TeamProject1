@@ -12,7 +12,14 @@ class SteamSearcher(models.Model):
     release_date = models.TextField()  # 날짜 형식이 특정되지 않았으므로 TextField로 사용
     keyphrase = models.CharField(max_length=255) # 추가
     summary = models.CharField(max_length=1024) # 추가
+    # 2024-07-25
+    description_phrases = models.JSONField()
 
+    # 출시일 데이터처리
+    def formatted_release_date(self):
+        if self.release_date == "1970-01-01":
+            return ""
+        return self.release_date
 
     def __str__(self):
         return self.name

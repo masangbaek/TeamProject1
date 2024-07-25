@@ -9,6 +9,27 @@ from django.views.decorators.csrf import csrf_exempt
 import re
 from datetime import datetime
 from supabase import create_client, Client
+#스팀 기사 호출하는 함수 추가 2024-07-25
+import feedparser
+
+# def get_game_news(request):
+#     try:
+#         params = {
+#             'q': 'game OR gaming OR video game',  # 검색어
+#             'language': 'en',  # 언어 설정
+#             'sortBy': 'publishedAt',  # 최신 뉴스 기준 정렬
+#             'apiKey': NEWS_API_KEY  # API 키
+#         }
+#         response = requests.get(NEWS_API_URL, params=params)
+#         response.raise_for_status()  # 오류가 발생하면 예외 발생
+#
+#         news_data = response.json()
+#         articles = news_data.get('articles', [])
+#         return JsonResponse({'articles': articles[:5]})  # 최신 기사 5개만 반환
+#     except Exception as e:
+#         print(f"Error fetching game news: {str(e)}")
+#         return JsonResponse({'error': 'Error fetching news'}, status=500)
+
 
 # 수정 내용
 def steam_searcher_list(request):
@@ -23,6 +44,7 @@ def steam_searcher_list(request):
             Q(name__icontains=search_query) |
             Q(keyphrase__icontains=search_query) |
             Q(summary__icontains=search_query)
+
         )
 
     games = games.annotate(
@@ -37,7 +59,12 @@ def steam_searcher_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'steam_searcher_list.html', {'page_obj': page_obj, 'search_query': search_query})
+    return render(request,
+                  'steam_searcher_list.html', {
+                   'page_obj': page_obj,
+                   'search_query': search_query,
+    })
+
 
 # 게임 상세 페이지
 def game_detail(request, appid):
@@ -108,7 +135,6 @@ def get_game_info(game_name):
 
 
 # 챗봇 응답을 처리하는 뷰
-@csrf_exempt
 @csrf_exempt
 def chatbot_respond(request):
     global context  # 전역 변수 context 사용

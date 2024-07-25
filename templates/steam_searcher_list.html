@@ -15,7 +15,7 @@
         }
         .container {
             margin-top: 50px;
-            text-align: center; /* 컨테이너 안의 내용 중앙 정렬 */
+            text-align: center;
         }
         .search-container {
             text-align: center;
@@ -24,7 +24,7 @@
         .search-container img {
             max-width: 100%;
             height: auto;
-            margin-top: 20px;  /* 검색 바와 이미지 사이에 여백 추가 */
+            margin-top: 20px;
         }
         .game {
             background-color: #2a475e;
@@ -45,19 +45,27 @@
             background-color: #1b2838;
             border-color: #3c6e8f;
         }
+        #latest-news {
+            margin-top: 50px;
+        }
+        
+        .news-article h4 {
+            color: #61dafb;
+        }
+        .news-article a {
+            color: #61dafb;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="search-container">
             <h1>Steam Searcher</h1>
-            
             <form method="GET" class="form-inline justify-content-center">
                 <input type="text" name="q" placeholder="Search..." value="{{ search_query }}" class="form-control mr-2">
                 <button type="submit" class="btn btn-primary">Search</button>
             </form>
             {% if not search_query %}
-                <!-- 이미지 추가 -->
                 <img src="{% static 'img/games/slider-2.jpg' %}" alt="Slider Image">
             {% endif %}
         </div>
@@ -66,13 +74,15 @@
             {% if page_obj.object_list %}
                 {% for game in page_obj %}
                     <div class="game">
-                        <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }} ({{ game.release_date }})</a></h2>
+                        <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }}{% if game.formatted_release_date %} ({{ game.formatted_release_date }}){% endif %}</a></h2>
                         <p><strong>Genre:</strong> {{ game.genre }}</p>
                         <p><strong>Developer:</strong> {{ game.developer }}</p>
                         <p><strong>Type:</strong> {{ game.type }}</p>
                         <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>
                         <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
                         <p><strong>summary:</strong> {{ game.summary }}</p>
+                        <!-- 2024-07-25 -->
+                        <p><strong>description_phrases:</strong> {{  game.description_phrases }}</p>
                     </div>
                 {% endfor %}
             {% else %}
@@ -109,12 +119,46 @@
             </nav>
         </div>
         {% endif %}
+        
+{#        <div id="latest-news">#}
+{#            <h2>Latest Game News</h2>#}
+{#            <div id="news-container"></div>#}
+{#        </div>#}
     </div>
+    
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
-    <!-- 챗봇 포함 2024-07-25 -->
     {% include 'chatbot.html' %}
+    
+{#    <script>#}
+{#    async function fetchGameNews() {#}
+{#        try {#}
+{#            const response = await fetch('/get_game_news/');#}
+{#            const newsData = await response.json();#}
+{#            const newsContainer = document.getElementById('news-container');#}
+{#            newsContainer.innerHTML = '';#}
+{##}
+{#            if (newsData.articles && newsData.articles.length > 0) {#}
+{#                newsData.articles.forEach(article => {#}
+{#                    const articleDiv = document.createElement('div');#}
+{#                    articleDiv.className = 'news-article';#}
+{#                    articleDiv.innerHTML = `<h4>${article.title}</h4><p>${article.description}</p><a href="${article.url}" target="_blank">Read more</a>`;#}
+{#                    newsContainer.appendChild(articleDiv);#}
+{#                });#}
+{#            } else {#}
+{#                newsContainer.innerHTML = '<p>No news articles found.</p>';#}
+{#            }#}
+{#        } catch (error) {#}
+{#            console.error('Error fetching news:', error);#}
+{#            const newsContainer = document.getElementById('news-container');#}
+{#            newsContainer.innerHTML = '<p>Error fetching news. Please try again later.</p>';#}
+{#        }#}
+{#    }#}
+{##}
+{#    document.addEventListener('DOMContentLoaded', fetchGameNews);#}
+{#</script>#}
 </body>
 </html>
+
