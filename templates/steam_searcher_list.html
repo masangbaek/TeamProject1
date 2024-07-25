@@ -1,152 +1,120 @@
+{% load static %}
 <!-- http://localhost:8000/steamsearcher -->
 
-<!-- 새로 추가 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steam Searcher</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
             background-color: #1b2838;
             color: #c7d5e0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        }
+        .container {
+            margin-top: 50px;
+            text-align: center; /* 컨테이너 안의 내용 중앙 정렬 */
         }
         .search-container {
-            margin: 50px;
             text-align: center;
+            margin-bottom: 30px;
         }
-        .search-container h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-        .search-container form {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            max-width: 600px;
-        }
-        .search-container input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            font-size: 1.2em;
-            border: 1px solid #ccc;
-            border-radius: 5px 0 0 5px;
-            box-sizing: border-box;
-        }
-        .search-container button {
-            padding: 10px 20px;
-            font-size: 1.2em;
-            border: 1px solid #ccc;
-            border-left: none;
-            border-radius: 0 5px 5px 0;
-            background-color: #2a475e;
-            color: #c7d5e0;
-            cursor: pointer;
-        }
-        .search-container button:hover {
-            background-color: #1b2838;
-        }
-        .game-list {
-            width: 80%;
-            max-width: 1000px;
-            margin: 20px 0;
+        .search-container img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;  /* 검색 바와 이미지 사이에 여백 추가 */
         }
         .game {
-            border: 1px solid #2a475e;
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 5px;
             background-color: #2a475e;
+            border: 1px solid #3c6e8f;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         .game h2 {
-            margin: 0 0 10px 0;
-            font-size: 1.5em;
+            color: #61dafb;
         }
-        .game p {
-            margin: 5px 0;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .pagination a, .pagination span {
-            margin: 0 5px;
-            padding: 10px 15px;
-            border: 1px solid #ccc;
-            text-decoration: none;
+        .pagination .page-link {
             color: #c7d5e0;
-            border-radius: 5px;
             background-color: #2a475e;
+            border: 1px solid #3c6e8f;
         }
-        .pagination .current {
-            font-weight: bold;
+        .pagination .page-item.active .page-link {
             background-color: #1b2838;
-        }
-        .pagination .disabled {
-            color: #555;
+            border-color: #3c6e8f;
         }
     </style>
 </head>
 <body>
-    <div class="search-container">
-        <h1>Steam Searcher</h1>
-        <form method="GET">
-            <input type="text" name="q" placeholder="Search..." value="{{ search_query }}">
-            <button type="submit">Search</button>
-        </form>
-    </div>
-    {% if page_obj %}
-    <div class="game-list">
-        {% if page_obj.object_list %}
-            {% for game in page_obj %}
-                <div class="game">
-                    <h2><a href="{% url 'game_detail' game.appid %}">{{ game.name }} ({{ game.release_date }})</a></h2>
-                    <p><strong>Genre:</strong> {{ game.genre }}</p>
-                    <p><strong>Developer:</strong> {{ game.developer }}</p>
-                    <p><strong>Type:</strong> {{ game.type }}</p>
-                    <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>
-                    <!-- <p><strong>Description:</strong> {{ game.detailed_description|linebreaks }}</p> -->
-                    <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
-                    <p><strong>summary:</strong> {{ game.summary }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No games found matching your search criteria.</p>
-        {% endif %}
-    </div>
-    <div class="pagination">
-        {% if page_obj.has_previous %}
-            <a href="?q={{ search_query }}&page=1">&laquo; first</a>
-            <a href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">previous</a>
-        {% else %}
-            <span class="disabled">&laquo; first</span>
-            <span class="disabled">previous</span>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <span class="current">{{ num }}</span>
-            {% else %}
-                <a href="?q={{ search_query }}&page={{ num }}">{{ num }}</a>
+    <div class="container">
+        <div class="search-container">
+            <h1>Steam Searcher</h1>
+            
+            <form method="GET" class="form-inline justify-content-center">
+                <input type="text" name="q" placeholder="Search..." value="{{ search_query }}" class="form-control mr-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            {% if not search_query %}
+                <!-- 이미지 추가 -->
+                <img src="{% static 'img/games/slider-2.jpg' %}" alt="Slider Image">
             {% endif %}
-        {% endfor %}
+        </div>
+        {% if page_obj %}
+        <div class="game-list">
+            {% if page_obj.object_list %}
+                {% for game in page_obj %}
+                    <div class="game">
+                        <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }} ({{ game.release_date }})</a></h2>
+                        <p><strong>Genre:</strong> {{ game.genre }}</p>
+                        <p><strong>Developer:</strong> {{ game.developer }}</p>
+                        <p><strong>Type:</strong> {{ game.type }}</p>
+                        <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>
+                        <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
+                        <p><strong>summary:</strong> {{ game.summary }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No games found matching your search criteria.</p>
+            {% endif %}
+        </div>
+        <div class="pagination justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page=1">&laquo; first</a></li>
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">previous</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">&laquo; first</span></li>
+                        <li class="page-item disabled"><span class="page-link">previous</span></li>
+                    {% endif %}
 
-        {% if page_obj.has_next %}
-            <a href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next</a>
-            <a href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% else %}
-            <span class="disabled">next</span>
-            <span class="disabled">last &raquo;</span>
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next</a></li>
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">next</span></li>
+                        <li class="page-item disabled"><span class="page-link">last &raquo;</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
         {% endif %}
     </div>
-    {% endif %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- 챗봇 포함 2024-07-25 -->
+    {% include 'chatbot.html' %}
 </body>
 </html>
