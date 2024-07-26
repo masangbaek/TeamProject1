@@ -1,3 +1,4 @@
+{##}
 {#{% load static %}#}
 {#<!DOCTYPE html>#}
 {#<html lang="en">#}
@@ -94,11 +95,11 @@
 {#        <h2>Top Games Based on Your Search</h2>#}
 {#        <div id="top-games-container">#}
 {#            {% for game in top_games %}#}
-{#                <div class="top-game-card" onclick="showGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.similarity|floatformat:2 }}', {{ game.top_phrases|safe }})">#}
+{#                <div class="top-game-card" onclick="showGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.similarity|floatformat:2 }}', {{ game.top_phrases|safe }}, '{{ game.keyphrase }}', '{{ game.summary }}', '{{ game.description_phrases }}')">#}
 {#                    <h2>{{ game.name }}</h2>#}
 {#                    <p><strong>Genre:</strong> {{ game.genre }}</p>#}
 {#                    <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
-{#                    <p><strong>Similarity:</strong> {{ game.similarity|floatformat:2 }}</p>#}
+{#                    <!-- <p><strong>Similarity:</strong> {{ game.similarity|floatformat:2 }}</p> -->#}
 {#                    <p><strong>Top Phrases:</strong></p>#}
 {#                    <div>#}
 {#                        {% for phrase in game.top_phrases %}#}
@@ -180,28 +181,33 @@
 {#    {% include 'chatbot.html' %}#}
 {##}
 {#    <script>#}
-{#        function showGameDetails(name, genre, recommendation_count, similarity, top_phrases) {#}
-{#            document.getElementById('game-name').innerText = name;#}
-{#            document.getElementById('game-genre').innerText = genre;#}
-{#            document.getElementById('game-recommendation-count').innerText = recommendation_count;#}
-{#            document.getElementById('game-similarity').innerText = similarity;#}
-{#            const topPhrasesContainer = document.getElementById('game-top-phrases');#}
-{#            topPhrasesContainer.innerHTML = '';#}
-{#            top_phrases.forEach(phrase => {#}
-{#                const badge = document.createElement('span');#}
-{#                badge.className = 'tag';#}
-{#                badge.innerText = phrase;#}
-{#                topPhrasesContainer.appendChild(badge);#}
-{#            });#}
-{#            document.getElementById('game-details').style.display = 'block';#}
-{#        }#}
-{#    </script>#}
+{#    function showGameDetails(name, genre, recommendation_count, similarity, top_phrases, keyphrase, summary, description_phrases) {#}
+{#        console.log("Game Details:", name, genre, recommendation_count, similarity, top_phrases, keyphrase, summary, description_phrases); // 디버깅 메시지#}
+{##}
+{#        document.getElementById('game-name').innerText = name;#}
+{#        document.getElementById('game-genre').innerText = genre;#}
+{#        document.getElementById('game-recommendation-count').innerText = recommendation_count;#}
+{#        document.getElementById('game-similarity').innerText = similarity;#}
+{##}
+{#        const topPhrasesContainer = document.getElementById('game-top-phrases');#}
+{#        topPhrasesContainer.innerHTML = '';#}
+{#        top_phrases.forEach(phrase => {#}
+{#            const badge = document.createElement('span');#}
+{#            badge.className = 'tag';#}
+{#            badge.innerText = phrase;#}
+{#            topPhrasesContainer.appendChild(badge);#}
+{#        });#}
+{##}
+{#        document.getElementById('game-keyphrase').innerText = keyphrase;#}
+{#        document.getElementById('game-summary').innerText = summary;#}
+{#        document.getElementById('game-description_phrases').innerText = description_phrases;#}
+{#        document.getElementById('game-details').style.display = 'block';#}
+{#    }#}
+{#</script>#}
 {#</body>#}
 {#</html>#}
 {##}
-{##}
-{##}
-{##}
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -298,12 +304,10 @@
         <h2>Top Games Based on Your Search</h2>
         <div id="top-games-container">
             {% for game in top_games %}
-                <div class="top-game-card" onclick="showGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.similarity|floatformat:2 }}', {{ game.top_phrases|safe }}, '{{ game.keyphrase }}', '{{ game.summary }}', '{{ game.description_phrases }}')">
+                <div class="top-game-card" onclick="showGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">
                     <h2>{{ game.name }}</h2>
                     <p><strong>Genre:</strong> {{ game.genre }}</p>
                     <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>
-                    <p><strong>Similarity:</strong> {{ game.similarity|floatformat:2 }}</p>
-                    <p><strong>Top Phrases:</strong></p>
                     <div>
                         {% for phrase in game.top_phrases %}
                             <span class="tag">{{ phrase }}</span>
@@ -311,6 +315,7 @@
                     </div>
                 </div>
             {% endfor %}
+
         </div>
         {% endif %}
 
@@ -318,8 +323,8 @@
             <h2 id="game-name"></h2>
             <p><strong>Genre:</strong> <span id="game-genre"></span></p>
             <p><strong>Recommendation Count:</strong> <span id="game-recommendation-count"></span></p>
-            <p><strong>Similarity:</strong> <span id="game-similarity"></span></p>
-            <p><strong>Top Phrases:</strong> <span id="game-top-phrases"></span></p>
+            <!-- <p><strong>Similarity:</strong> <span id="game-similarity"></span></p> -->
+            <!-- <p><strong>Top Phrases:</strong> <span id="game-top-phrases"></span></p> -->
             <p><strong>keyphrase:</strong> <span id="game-keyphrase"></span></p>
             <p><strong>summary:</strong> <span id="game-summary"></span></p>
             <p><strong>description_phrases:</strong> <span id="game-description_phrases"></span></p>
@@ -337,8 +342,7 @@
                         <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>
                         <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
                         <p><strong>summary:</strong> {{ game.summary }}</p>
-                        <!-- 2024-07-25 -->
-                        <p><strong>description_phrases:</strong> {{  game.description_phrases }}</p>
+                        <p><strong>description_phrases:</strong> {{ game.description_phrases }}</p>
                     </div>
                 {% endfor %}
             {% else %}
@@ -384,24 +388,23 @@
     {% include 'chatbot.html' %}
 
     <script>
-        function showGameDetails(name, genre, recommendation_count, similarity, top_phrases, keyphrase, summary, description_phrases) {
-            document.getElementById('game-name').innerText = name;
-            document.getElementById('game-genre').innerText = genre;
-            document.getElementById('game-recommendation-count').innerText = recommendation_count;
-            document.getElementById('game-similarity').innerText = similarity;
-            const topPhrasesContainer = document.getElementById('game-top-phrases');
-            topPhrasesContainer.innerHTML = '';
-            top_phrases.forEach(phrase => {
-                const badge = document.createElement('span');
-                badge.className = 'tag';
-                badge.innerText = phrase;
-                topPhrasesContainer.appendChild(badge);
-            });
-            document.getElementById('game-keyphrase').innerText = keyphrase;
-            document.getElementById('game-summary').innerText = summary;
-            document.getElementById('game-description_phrases').innerText = description_phrases;
-            document.getElementById('game-details').style.display = 'block';
-        }
-    </script>
+    function showGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {
+          console.log("Name: ", name);
+          console.log("Genre: ", genre);
+          console.log("Recommendation Count: ", recommendation_count);
+          console.log("Keyphrase: ", keyphrase);
+          console.log("Summary: ", summary);
+          console.log("Description Phrases: ", description_phrases);
+    
+        document.getElementById('game-name').innerText = name;
+        document.getElementById('game-genre').innerText = genre;
+        document.getElementById('game-recommendation-count').innerText = recommendation_count;
+        document.getElementById('game-keyphrase').innerText = keyphrase || 'N/A';
+        document.getElementById('game-summary').innerText = summary || 'N/A';
+        document.getElementById('game-description_phrases').innerText = description_phrases || 'N/A';
+        document.getElementById('game-details').style.display = 'block';
+    }
+</script>
+
 </body>
 </html>
