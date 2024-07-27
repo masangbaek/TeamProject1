@@ -13,6 +13,7 @@ import nltk
 from nltk.corpus import stopwords
 import time
 import os
+from django.http import JsonResponse
 
 # Supabase 설정
 supabase_url = "https://nhcmippskpgkykwsumqp.supabase.co"
@@ -49,27 +50,31 @@ def search_games(query, model, embeddings_df):
         if word in model.wv:
             similar_words.extend([w for w, _ in model.wv.most_similar(word, topn=10)])
 
-    similar_words = set(similar_words)  # 유사한 단어들을 집합으로 만듭니다.
+    similar_words = set(similar_words)
 
-    # 유사한 단어를 포함하는 게임 찾기
     results = []
+    seen_game_titles = set()
     for _, row in embeddings_df.iterrows():
+        game_title = row['name']
+        if game_title in seen_game_titles:
+            continue
+
         game_words = set(row['embedding_words'])
         common_words = game_words.intersection(similar_words)
         if common_words:
             results.append({
-                'name': row['name'],
+                'name': game_title,
                 'genre': row['genre'],
                 'recommendation_count': row['recommendation_count'],
-                # 2024-07-26
-                'keyphrase': row.get('keyphrase', 'N/A'),  # 필드 추가
-                'summary': row.get('summary', 'N/A'),  # 필드 추가
-                'common_words': common_words
+                'keyphrase': row.get('keyphrase', 'N/A'),
+                'summary': row.get('summary', 'N/A'),
             })
+            seen_game_titles.add(game_title)
 
     results.sort(key=lambda x: -x['recommendation_count'])
 
     return results[:5]
+
 
 
 # 기존 코드
@@ -83,17 +88,18 @@ def steam_searcher_list(request):
         Q(name__icontains=search_query) |
         Q(keyphrase__icontains=search_query) |
         Q(summary__icontains=search_query),
-        ~Q(genre=None),
-        ~Q(description_phrases=None)
+        ~Q(detailed_description=search_query) |
+        ~Q(genre=search_query),
+        # ~Q(description_phrases=search_query)
     )
-
-    games = games.annotate(
-        recommendation_count_fixed=Case(
-            When(recommendation_count__isnull=True, then=Value(0.0)),
-            default='recommendation_count',
-            output_field=FloatField()
-        )
-    ).order_by('-recommendation_count_fixed')
+    # # 추천 수를 기준으로 정렬
+    # games = games.annotate(
+    #     recommendation_count_fixed=Case(
+    #         When(recommendation_count__isnull=True, then=Value(0.0)),
+    #         default='recommendation_count',
+    #         output_field=FloatField()
+    #     )
+    # ).order_by('-recommendation_count_fixed')
 
     # description_phrases를 문자열로 변환하여 템플릿에 전달합니다.
     for game in games:
@@ -127,13 +133,12 @@ def steam_searcher_list(request):
                       'top_games': top_games  # 템플릿에 top_games 전달
                   })
 
-
 # 게임 상세 페이지
 def game_detail(request, appid):
     search_query = request.GET.get('q', '')
     game = SteamSearcher.objects.get(appid=appid)
-    return render(request, 'game_detail.html', {'game': game, 'search_query': search_query})
 
+    return render(request, 'game_detail.html', {'game': game, 'search_query': search_query})
 
 def get_greeting():
     current_hour = datetime.now().hour
@@ -145,16 +150,17 @@ def get_greeting():
         return "Commander Nice to meet you. Now time is {}o'clock Good evening.".format(current_hour)
 
 
+from django.utils.html import escape
+
 def get_game_info(game_name):
     try:
         # 검색어를 소문자로 변환
         game_name_lower = game_name.lower()
 
         # 정확히 일치하는 게임을 먼저 검색
-        exact_response = supabase.table('steamsearcher_duplicate').select('appid', 'name', 'recommendation_count').or_(
+        exact_response = supabase.table('steamsearcher_duplicate').select('appid', 'name').or_(
             f'name.eq.{game_name},keyphrase.eq.{game_name},summary.eq.{game_name}'
         ).execute()
-        # 검색 결과가 있으면 데이터를 가져오고, 없으면 빈 리스트를 반환
         exact_games = exact_response.data if exact_response.data else []
 
         # 부분 일치 검색
@@ -162,7 +168,6 @@ def get_game_info(game_name):
                                                                             'recommendation_count').or_(
             f'name.ilike.%{game_name_lower}%,keyphrase.ilike.%{game_name_lower}%,summary.ilike.%{game_name_lower}%'
         ).execute()
-        # 검색 결과가 있으면 데이터를 가져오고, 없으면 빈 리스트를 반환
         partial_games = partial_response.data if partial_response.data else []
 
         # 정확히 일치하는 게임을 우선 순위로 설정
@@ -171,7 +176,7 @@ def get_game_info(game_name):
         if games:
             # 추천 수가 None인 경우 0으로 변환
             for game in games:
-                if game['recommendation_count'] is None:
+                if game.get('recommendation_count') is None:
                     game['recommendation_count'] = 0
 
             # 추천 수로 정렬
@@ -179,16 +184,15 @@ def get_game_info(game_name):
 
             # 게임 목록을 링크 포함하여 생성
             game_names = [
-                f"{i + 1}. <a href='/game/{game['appid']}/'>{game['name']}</a> (추천 수: {game['recommendation_count']})"
+                f"{i + 1}. <a href='/game/{escape(game['appid'])}/'>{escape(game['name'])}</a> (Good: {escape(str(game['recommendation_count']))})"
                 for i, game in enumerate(games[:5])
             ]
             # HTML 형식으로 반환
-            return "추천 수가 높은 게임:<br>" + "<br>".join(game_names)
+            return "Highly recommended games:<br>" + "<br>".join(game_names)
         else:
-            return f"Sorry, {game_name} couldn't find any information about game "
+            return f"Sorry, {escape(game_name)} couldn't find any information about game "
     except Exception as e:
         return f"Supabase API 오류: {str(e)}"
-
 
 # 챗봇 응답을 처리하는 뷰
 @csrf_exempt
@@ -223,7 +227,7 @@ def chatbot_respond(request):
 
         # context에 이름이 저장되어 있는 경우
         if "name" in context:
-            return JsonResponse({'reply': f"{context['name']}님 무엇을 도와드릴까요?"}, safe=False)
+            return JsonResponse({'reply': f"{context['name']} How may I help you?"}, safe=False)
 
         # 현재 시간을 요청한 경우
         if re.search('시간', user_input):
@@ -234,4 +238,3 @@ def chatbot_respond(request):
 
     # 잘못된 요청인 경우
     return JsonResponse({'error': 'Invalid request'}, status=400, safe=False)
-

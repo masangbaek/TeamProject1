@@ -10,6 +10,8 @@ urlpatterns = [
     # 챗봇 응답 URL 패턴 추가
     path('chatbot/respond/', chatbot_respond, name='chatbot_respond'),
 
+
+
 ]
 # 추가: 정적 파일 및 미디어 파일 서빙
 if settings.DEBUG:
