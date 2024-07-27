@@ -13,7 +13,7 @@ class SteamSearcher(models.Model):
     keyphrase = models.CharField(max_length=255) # 추가
     summary = models.CharField(max_length=1024) # 추가
     # 2024-07-25
-    description_phrases = models.JSONField()
+    # description_phrases = models.JSONField()
 
 
     # 출시일 데이터처리

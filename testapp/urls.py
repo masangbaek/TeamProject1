@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
-from .views import steam_searcher_list, game_detail, chatbot_respond
+from .views import steam_searcher_list, game_detail, chatbot_respond, category_reviews
 
 urlpatterns = [
     path('', steam_searcher_list, name='steam_searcher_list'),
@@ -10,6 +10,7 @@ urlpatterns = [
     # 챗봇 응답 URL 패턴 추가
     path('chatbot/respond/', chatbot_respond, name='chatbot_respond'),
 
+    path('categories/', category_reviews, name='category_reviews'),  # 새로운 경로 추가
 
 
 ]
