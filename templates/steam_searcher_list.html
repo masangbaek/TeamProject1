@@ -1,4 +1,4 @@
-{##}
+
 {#{% load static %}#}
 {#<!DOCTYPE html>#}
 {#<html lang="en">#}
@@ -8,75 +8,127 @@
 {#    <title>Steam Searcher</title>#}
 {#    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">#}
 {#    <style>#}
-{#        body {#}
-{#            background-color: #1b2838;#}
-{#            color: #c7d5e0;#}
+{#    body {#}
+{#        background-color: #1b2838;#}
+{#        color: #c7d5e0;#}
+{#        font-family: Arial, sans-serif;#}
+{#    }#}
+{#    .container {#}
+{#        margin-top: 50px;#}
+{#        padding: 0 15px;#}
+{#        max-width: 1200px;#}
+{#        margin-left: auto;#}
+{#        margin-right: auto;#}
+{#    }#}
+{#    .search-container {#}
+{#        text-align: center;#}
+{#        margin-bottom: 30px;#}
+{#    }#}
+{#    .search-container img {#}
+{#        max-width: 100%;#}
+{#        height: auto;#}
+{#        margin-top: 20px;#}
+{#    }#}
+{#    .columns-container {#}
+{#        display: flex;#}
+{#        justify-content: space-between;#}
+{#        gap: 20px;#}
+{#        flex-wrap: nowrap;#}
+{#    }#}
+{#    .left-column, .right-column {#}
+{#        flex: 1;#}
+{#        display: flex;#}
+{#        flex-direction: column;#}
+{#        padding: 15px;#}
+{#        max-width: 45%;#}
+{#        box-sizing: border-box;#}
+{#    }#}
+{#    .left-column {#}
+{#        overflow-y: auto;#}
+{#        max-height: 800px; /* Increased height for more scrollable area */#}
+{#    }#}
+{#    .left-column h2, .right-column h2 {#}
+{#        margin-bottom: 20px;#}
+{#    }#}
+{#    .left-column-cards {#}
+{#        display: flex;#}
+{#        flex-wrap: nowrap;#}
+{#        overflow-x: auto;#}
+{#        width: 100%;#}
+{#        margin-bottom: 20px;#}
+{#    }#}
+{#    .left-column-cards .game-card {#}
+{#        flex: 0 0 18%; /* 카드의 너비를 조절합니다 */#}
+{#        margin-right: 10px;#}
+{#    }#}
+{#    .game-card {#}
+{#        background-color: #2a475e;#}
+{#        border: 1px solid #3c6e8f;#}
+{#        border-radius: 5px;#}
+{#        padding: 15px;#}
+{#        margin-bottom: 15px;#}
+{#        cursor: pointer;#}
+{#        transition: transform 0.2s;#}
+{#        text-align: center;#}
+{#    }#}
+{#    .game-card:hover {#}
+{#        transform: scale(1.05);#}
+{#    }#}
+{#    .game-card h2 {#}
+{#        font-size: 1.2rem;#}
+{#        margin: 0 0 10px;#}
+{#    }#}
+{#    .game-card p {#}
+{#        margin: 5px 0;#}
+{#        font-size: 1rem;#}
+{#    }#}
+{#    .game-detail-card {#}
+{#        background-color: #2a475e;#}
+{#        border-radius: 5px;#}
+{#        padding: 15px;#}
+{#        margin-top: 20px;#}
+{#        width: 100%;#}
+{#    }#}
+{#    .pagination .page-link {#}
+{#        color: #c7d5e0;#}
+{#        background-color: #2a475e;#}
+{#        border: 1px solid #3c6e8f;#}
+{#    }#}
+{#    .pagination .page-item.active .page-link {#}
+{#        background-color: #1b2838;#}
+{#        border-color: #3c6e8f;#}
+{#    }#}
+{#    #left-game-details {#}
+{#        display: none; /* 클릭 전에는 하단 결과가 보이지 않도록 수정 */#}
+{#    }#}
+{#    /* Responsive adjustments */#}
+{#    @media (max-width: 1200px) {#}
+{#        .game-card {#}
+{#            flex: 1 0 200px;#}
 {#        }#}
-{#        .container {#}
-{#            margin-top: 50px;#}
-{#            text-align: center;#}
+{#    }#}
+{#    @media (max-width: 992px) {#}
+{#        .game-card {#}
+{#            flex: 1 0 150px;#}
 {#        }#}
-{#        .search-container {#}
-{#            text-align: center;#}
-{#            margin-bottom: 30px;#}
+{#    }#}
+{#    @media (max-width: 768px) {#}
+{#        .game-card {#}
+{#            flex: 1 0 100%;#}
 {#        }#}
-{#        .search-container img {#}
-{#            max-width: 100%;#}
-{#            height: auto;#}
-{#            margin-top: 20px;#}
-{#        }#}
-{#        .game {#}
-{#            background-color: #2a475e;#}
-{#            border: 1px solid #3c6e8f;#}
-{#            border-radius: 5px;#}
-{#            padding: 20px;#}
-{#            margin-bottom: 20px;#}
-{#        }#}
-{#        .game h2 {#}
-{#            color: #61dafb;#}
-{#        }#}
-{#        .top-game-card {#}
-{#            background-color: #2a475e;#}
-{#            border: 1px solid #3c6e8f;#}
-{#            border-radius: 5px;#}
-{#            padding: 10px;#}
-{#            margin: 10px;#}
-{#            text-align: left;#}
-{#            width: 18%;#}
-{#            cursor: pointer;  /* 클릭 가능하게 변경 */#}
-{#        }#}
-{#        .top-game-card h2 {#}
-{#            color: #61dafb;#}
+{#        .game-card h2 {#}
 {#            font-size: 1rem;#}
 {#        }#}
-{#        .top-game-card p {#}
-{#            font-size: 0.8rem;#}
+{#        .game-card p {#}
+{#            font-size: 0.9rem;#}
 {#        }#}
-{#        .tag {#}
-{#            display: inline-block;#}
-{#            background-color: #61dafb;#}
-{#            color: #1b2838;#}
-{#            border-radius: 3px;#}
-{#            padding: 2px 6px;#}
-{#            margin: 2px;#}
-{#            font-size: 0.7rem;#}
+{#        .left-column, .right-column {#}
+{#            max-width: 100%;#}
+{#            padding: 10px;#}
+{#            max-height: none; /* Remove max-height for mobile view */#}
 {#        }#}
-{#        .pagination .page-link {#}
-{#            color: #c7d5e0;#}
-{#            background-color: #2a475e;#}
-{#            border: 1px solid #3c6e8f;#}
-{#        }#}
-{#        .pagination .page-item.active .page-link {#}
-{#            background-color: #1b2838;#}
-{#            border-color: #3c6e8f;#}
-{#        }#}
-{#        #top-games-container {#}
-{#            margin-top: 20px;#}
-{#            display: flex;#}
-{#            flex-wrap: wrap;#}
-{#            justify-content: center;#}
-{#        }#}
-{#    </style>#}
+{#    }#}
+{#</style>#}
 {#</head>#}
 {#<body>#}
 {#    <div class="container">#}
@@ -90,58 +142,55 @@
 {#                <img src="{% static 'img/games/slider-2.jpg' %}" alt="Slider Image">#}
 {#            {% endif %}#}
 {#        </div>#}
-{##}
-{#        {% if top_games %}#}
-{#        <h2>Top Games Based on Your Search</h2>#}
-{#        <div id="top-games-container">#}
-{#            {% for game in top_games %}#}
-{#                <div class="top-game-card" onclick="showGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.similarity|floatformat:2 }}', {{ game.top_phrases|safe }}, '{{ game.keyphrase }}', '{{ game.summary }}', '{{ game.description_phrases }}')">#}
-{#                    <h2>{{ game.name }}</h2>#}
-{#                    <p><strong>Genre:</strong> {{ game.genre }}</p>#}
-{#                    <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
-{#                    <!-- <p><strong>Similarity:</strong> {{ game.similarity|floatformat:2 }}</p> -->#}
-{#                    <p><strong>Top Phrases:</strong></p>#}
-{#                    <div>#}
-{#                        {% for phrase in game.top_phrases %}#}
-{#                            <span class="tag">{{ phrase }}</span>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
+{#        {% if search_query %}#}
+{#        <div class="columns-container">#}
+{#            <div class="left-column">#}
+{#                <h2>Top Games Based on Your Search</h2>#}
+{#                <div class="left-column-cards">#}
+{#                    {% for game in top_games %}#}
+{#                        <div class="game-card" onclick="showLeftGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">#}
+{#                            <h2>{{ game.name }}</h2>#}
+{#                            <p><strong>Genre:</strong> {{ game.genre }}</p>#}
+{#                            <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
 {#                </div>#}
-{#            {% endfor %}#}
+{#                <div id="left-game-details" class="game-detail-card">#}
+{#                    <h2 id="left-game-name"></h2>#}
+{#                    <p><strong>Genre:</strong> <span id="left-game-genre"></span></p>#}
+{#                    <p><strong>Recommendation Count:</strong> <span id="left-game-recommendation-count"></span></p>#}
+{#                    <p><strong>Keyphrase:</strong> <span id="left-game-keyphrase"></span></p>#}
+{#                    <p><strong>Summary:</strong> <span id="left-game-summary"></span></p>#}
+{#                    <p><strong>Description Phrases:</strong> <span id="left-game-description_phrases"></span></p>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="right-column">#}
+{#                <h2>Database Search Results</h2>#}
+{#                <div class="game-list">#}
+{#                    {% for game in page_obj %}#}
+{#                        <div class="game-card" onclick="showRightGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">#}
+{#                            <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }}</a></h2>#}
+{#                            <p><strong>Genre:</strong> {{ game.genre }}</p>#}
+{#                            <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
+{#                            <p><strong>Keyphrase:</strong> {{ game.keyphrase }}</p>#}
+{#                            <p><strong>Summary:</strong> {{ game.summary }}</p>#}
+{#                            <p><strong>Description Phrases:</strong> {{ game.description_phrases }}</p>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#                <div id="right-game-details" class="game-detail-card">#}
+{#                    <h2 id="right-game-name"></h2>#}
+{#                    <p><strong>Genre:</strong> <span id="right-game-genre"></span></p>#}
+{#                    <p><strong>Recommendation Count:</strong> <span id="right-game-recommendation-count"></span></p>#}
+{#                    <p><strong>Keyphrase:</strong> <span id="right-game-keyphrase"></span></p>#}
+{#                    <p><strong>Summary:</strong> <span id="right-game-summary"></span></p>#}
+{#                    <p><strong>Description Phrases:</strong> <span id="right-game-description_phrases"></span></p>#}
+{#                </div>#}
+{#            </div>#}
 {#        </div>#}
 {#        {% endif %}#}
 {##}
-{#        <div id="game-details" class="game" style="display:none;">#}
-{#            <h2 id="game-name"></h2>#}
-{#            <p><strong>Genre:</strong> <span id="game-genre"></span></p>#}
-{#            <p><strong>Recommendation Count:</strong> <span id="game-recommendation-count"></span></p>#}
-{#            <p><strong>Similarity:</strong> <span id="game-similarity"></span></p>#}
-{#            <p><strong>Top Phrases:</strong> <span id="game-top-phrases"></span></p>#}
-{#            <p><strong>keyphrase:</strong> <span id="game-keyphrase"></span></p>#}
-{#            <p><strong>summary:</strong> <span id="game-summary"></span></p>#}
-{#            <p><strong>description_phrases:</strong> <span id="game-description_phrases"></span></p>#}
-{#        </div>#}
-{##}
 {#        {% if page_obj %}#}
-{#        <div class="game-list">#}
-{#            {% if page_obj.object_list %}#}
-{#                {% for game in page_obj %}#}
-{#                    <div class="game">#}
-{#                        <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }}{% if game.formatted_release_date %} ({{ game.formatted_release_date }}){% endif %}</a></h2>#}
-{#                        <p><strong>Genre:</strong> {{ game.genre }}</p>#}
-{#                        <p><strong>Developer:</strong> {{ game.developer }}</p>#}
-{#                        <p><strong>Type:</strong> {{ game.type }}</p>#}
-{#                        <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>#}
-{#                        <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>#}
-{#                        <p><strong>summary:</strong> {{ game.summary }}</p>#}
-{#                        <!-- 2024-07-25 -->#}
-{#                        <p><strong>description_phrases:</strong> {{  game.description_phrases }}</p>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-{#            {% else %}#}
-{#                <p>No games found matching your search criteria.</p>#}
-{#            {% endif %}#}
-{#        </div>#}
 {#        <div class="pagination justify-content-center">#}
 {#            <nav aria-label="Page navigation">#}
 {#                <ul class="pagination">#}
@@ -152,7 +201,6 @@
 {#                        <li class="page-item disabled"><span class="page-link">&laquo; first</span></li>#}
 {#                        <li class="page-item disabled"><span class="page-link">previous</span></li>#}
 {#                    {% endif %}#}
-{##}
 {#                    {% for num in page_obj.paginator.page_range %}#}
 {#                        {% if page_obj.number == num %}#}
 {#                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>#}
@@ -160,7 +208,6 @@
 {#                            <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ num }}">{{ num }}</a></li>#}
 {#                        {% endif %}#}
 {#                    {% endfor %}#}
-{##}
 {#                    {% if page_obj.has_next %}#}
 {#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next</a></li>#}
 {#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>#}
@@ -181,32 +228,284 @@
 {#    {% include 'chatbot.html' %}#}
 {##}
 {#    <script>#}
-{#    function showGameDetails(name, genre, recommendation_count, similarity, top_phrases, keyphrase, summary, description_phrases) {#}
-{#        console.log("Game Details:", name, genre, recommendation_count, similarity, top_phrases, keyphrase, summary, description_phrases); // 디버깅 메시지#}
-{##}
-{#        document.getElementById('game-name').innerText = name;#}
-{#        document.getElementById('game-genre').innerText = genre;#}
-{#        document.getElementById('game-recommendation-count').innerText = recommendation_count;#}
-{#        document.getElementById('game-similarity').innerText = similarity;#}
-{##}
-{#        const topPhrasesContainer = document.getElementById('game-top-phrases');#}
-{#        topPhrasesContainer.innerHTML = '';#}
-{#        top_phrases.forEach(phrase => {#}
-{#            const badge = document.createElement('span');#}
-{#            badge.className = 'tag';#}
-{#            badge.innerText = phrase;#}
-{#            topPhrasesContainer.appendChild(badge);#}
-{#        });#}
-{##}
-{#        document.getElementById('game-keyphrase').innerText = keyphrase;#}
-{#        document.getElementById('game-summary').innerText = summary;#}
-{#        document.getElementById('game-description_phrases').innerText = description_phrases;#}
-{#        document.getElementById('game-details').style.display = 'block';#}
+{#    function showLeftGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {#}
+{#        document.getElementById('left-game-name').innerText = name;#}
+{#        document.getElementById('left-game-genre').innerText = genre;#}
+{#        document.getElementById('left-game-recommendation-count').innerText = recommendation_count;#}
+{#        document.getElementById('left-game-keyphrase').innerText = keyphrase || 'N/A';#}
+{#        document.getElementById('left-game-summary').innerText = summary || 'N/A';#}
+{#        document.getElementById('left-game-description_phrases').innerText = description_phrases || 'N/A';#}
+{#        document.getElementById('left-game-details').style.display = 'block';#}
 {#    }#}
-{#</script>#}
+{##}
+{#    function showRightGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {#}
+{#        document.getElementById('right-game-name').innerText = name;#}
+{#        document.getElementById('right-game-genre').innerText = genre;#}
+{#        document.getElementById('right-game-recommendation-count').innerText = recommendation_count;#}
+{#        document.getElementById('right-game-keyphrase').innerText = keyphrase || 'N/A';#}
+{#        document.getElementById('right-game-summary').innerText = summary || 'N/A';#}
+{#        document.getElementById('right-game-description_phrases').innerText = description_phrases || 'N/A';#}
+{#        document.getElementById('right-game-details').style.display = 'block';#}
+{#    }#}
+{#    </script>#}
+{##}
 {#</body>#}
 {#</html>#}
+
+{#{% load static %}#}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>Steam Searcher</title>#}
+{#    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">#}
+{#    <style>#}
+{#    body {#}
+{#        background-color: #1b2838;#}
+{#        color: #c7d5e0;#}
+{#        font-family: Arial, sans-serif;#}
+{#    }#}
+{#    .container {#}
+{#        margin-top: 50px;#}
+{#        padding: 0 15px;#}
+{#        max-width: 1200px;#}
+{#        margin-left: auto;#}
+{#        margin-right: auto;#}
+{#    }#}
+{#    .search-container {#}
+{#        text-align: center;#}
+{#        margin-bottom: 30px;#}
+{#    }#}
+{#    .search-container img {#}
+{#        max-width: 100%;#}
+{#        height: auto;#}
+{#        margin-top: 20px;#}
+{#    }#}
+{#    .columns-container {#}
+{#        display: flex;#}
+{#        justify-content: space-between;#}
+{#        gap: 20px;#}
+{#        flex-wrap: nowrap;#}
+{#    }#}
+{#    .left-column, .right-column {#}
+{#        flex: 1;#}
+{#        display: flex;#}
+{#        flex-direction: column;#}
+{#        padding: 15px;#}
+{#        max-width: 45%;#}
+{#        box-sizing: border-box;#}
+{#    }#}
+{#    .left-column {#}
+{#        overflow-y: auto;#}
+{#        max-height: 1200px; /* Increased height for more scrollable area */#}
+{#    }#}
+{#    .left-column h2, .right-column h2 {#}
+{#        margin-bottom: 20px;#}
+{#    }#}
+{#    .left-column-cards {#}
+{#        display: flex;#}
+{#        flex-wrap: nowrap;#}
+{#        overflow-x: auto;#}
+{#        width: 100%;#}
+{#        margin-bottom: 20px;#}
+{#    }#}
+{#    .left-column-cards .game-card {#}
+{#        flex: 0 0 18%; /* 카드의 너비를 조절합니다 */#}
+{#        margin-right: 10px;#}
+{#    }#}
+{#    .game-card {#}
+{#        background-color: #2a475e;#}
+{#        border: 1px solid #3c6e8f;#}
+{#        border-radius: 5px;#}
+{#        padding: 15px;#}
+{#        margin-bottom: 15px;#}
+{#        cursor: pointer;#}
+{#        transition: transform 0.2s;#}
+{#        text-align: center;#}
+{#    }#}
+{#    .game-card:hover {#}
+{#        transform: scale(1.05);#}
+{#    }#}
+{#    .game-card h2 {#}
+{#        font-size: 1.2rem;#}
+{#        margin: 0 0 10px;#}
+{#    }#}
+{#    .game-card p {#}
+{#        margin: 5px 0;#}
+{#        font-size: 1rem;#}
+{#    }#}
+{#    .game-detail-card {#}
+{#        background-color: #2a475e;#}
+{#        border-radius: 5px;#}
+{#        padding: 15px;#}
+{#        margin-top: 20px;#}
+{#        width: 100%;#}
+{#    }#}
+{#    .pagination .page-link {#}
+{#        color: #c7d5e0;#}
+{#        background-color: #2a475e;#}
+{#        border: 1px solid #3c6e8f;#}
+{#    }#}
+{#    .pagination .page-item.active .page-link {#}
+{#        background-color: #1b2838;#}
+{#        border-color: #3c6e8f;#}
+{#    }#}
+{#    #left-game-details {#}
+{#        display: none; /* 클릭 전에는 하단 결과가 보이지 않도록 수정 */#}
+{#    }#}
+{#    /* Responsive adjustments */#}
+{#    @media (max-width: 1200px) {#}
+{#        .game-card {#}
+{#            flex: 1 0 200px;#}
+{#        }#}
+{#    }#}
+{#    @media (max-width: 992px) {#}
+{#        .game-card {#}
+{#            flex: 1 0 150px;#}
+{#        }#}
+{#    }#}
+{#    @media (max-width: 768px) {#}
+{#        .game-card {#}
+{#            flex: 1 0 100%;#}
+{#        }#}
+{#        .game-card h2 {#}
+{#            font-size: 1rem;#}
+{#        }#}
+{#        .game-card p {#}
+{#            font-size: 0.9rem;#}
+{#        }#}
+{#        .left-column, .right-column {#}
+{#            max-width: 100%;#}
+{#            padding: 10px;#}
+{#            max-height: none; /* Remove max-height for mobile view */#}
+{#        }#}
+{#    }#}
+{#</style>#}
+{#</head>#}
+{#<body>#}
+{#    <div class="container">#}
+{#        <div class="search-container">#}
+{#            <h1>Steam Searcher</h1>#}
+{#            <form method="GET" class="form-inline justify-content-center">#}
+{#                <input type="text" name="q" placeholder="Search..." value="{{ search_query }}" class="form-control mr-2">#}
+{#                <button type="submit" class="btn btn-primary">Search</button>#}
+{#            </form>#}
+{#            {% if not search_query %}#}
+{#                <img src="{% static 'img/games/slider-2.jpg' %}" alt="Slider Image">#}
+{#            {% endif %}#}
+{#        </div>#}
+{#        {% if search_query %}#}
+{#        <div class="columns-container">#}
+{#            <div class="left-column">#}
+{#                <h2>Top Games Based on Your Search</h2>#}
+{#                <div class="left-column-cards">#}
+{#                    {% for game in top_games %}#}
+{#                        <div class="game-card" onclick="showLeftGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}','{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">#}
+{#                            <h2>{{ game.name }}</h2>#}
+{#                            <p><strong>Genre:</strong> {{ game.genre }}</p>#}
+{#                            <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#                <div id="left-game-details" class="game-detail-card">#}
+{#                    <h2 id="left-game-name"></h2>#}
+{#                    <p><strong>Genre:</strong> <span id="left-game-genre"></span></p>#}
+{#                    <p><strong>Recommendation Count:</strong> <span id="left-game-recommendation-count"></span></p>#}
+{#                    #}
+{#                    <p><strong>Keyphrase:</strong> <span id="left-game-keyphrase"></span></p>#}
+{#                    <p><strong>Summary:</strong> <span id="left-game-summary"></span></p>#}
+{#                    <p><strong>Description Phrases:</strong> <span id="left-game-description_phrases"></span></p>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="right-column">#}
+{#                <h2>Database Search Results</h2>#}
+{#                <div class="game-list">#}
+{#                    {% for game in page_obj %}#}
+{#                        <div class="game-card" onclick="showRightGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">#}
+{#                            <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }}</a></h2>#}
+{#                            <p><strong>Genre:</strong> {{ game.genre }}</p>#}
+{#                            <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
+{#                            <p><strong>Keyphrase:</strong> {{ game.keyphrase }}</p>#}
+{#                            <p><strong>Summary:</strong> {{ game.summary }}</p>#}
+{#                            <p><strong>Description Phrases:</strong> {{ game.description_phrases }}</p>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#                <div id="right-game-details" class="game-detail-card">#}
+{#                    <h2 id="right-game-name"></h2>#}
+{#                    <p><strong>Genre:</strong> <span id="right-game-genre"></span></p>#}
+{#                    <p><strong>Recommendation Count:</strong> <span id="right-game-recommendation-count"></span></p>#}
+{#                    <p><strong>Keyphrase:</strong> <span id="right-game-keyphrase"></span></p>#}
+{#                    <p><strong>Summary:</strong> <span id="right-game-summary"></span></p>#}
+{#                    <p><strong>Description Phrases:</strong> <span id="right-game-description_phrases"></span></p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        {% endif %}#}
 {##}
+{#        {% if page_obj %}#}
+{#        <div class="pagination justify-content-center">#}
+{#            <nav aria-label="Page navigation">#}
+{#                <ul class="pagination">#}
+{#                    {% if page_obj.has_previous %}#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page=1">&laquo; first</a></li>#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">previous</a></li>#}
+{#                    {% else %}#}
+{#                        <li class="page-item disabled"><span class="page-link">&laquo; first</span></li>#}
+{#                        <li class="page-item disabled"><span class="page-link">previous</span></li>#}
+{#                    {% endif %}#}
+{#                    {% for num in page_obj.paginator.page_range %}#}
+{#                        {% if page_obj.number == num %}#}
+{#                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>#}
+{#                        {% else %}#}
+{#                            <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ num }}">{{ num }}</a></li>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{#                    {% if page_obj.has_next %}#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next</a></li>#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>#}
+{#                    {% else %}#}
+{#                        <li class="page-item disabled"><span class="page-link">next</span></li>#}
+{#                        <li class="page-item disabled"><span class="page-link">last &raquo;</span></li>#}
+{#                    {% endif %}#}
+{#                </ul>#}
+{#            </nav>#}
+{#        </div>#}
+{#        {% endif %}#}
+{#    </div>#}
+{##}
+{#    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>#}
+{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>#}
+{##}
+{#    {% include 'chatbot.html' %}#}
+{##}
+{#    <script>#}
+{#    function showLeftGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {#}
+{#        document.getElementById('left-game-name').innerText = name;#}
+{#        document.getElementById('left-game-genre').innerText = genre;#}
+{#        document.getElementById('left-game-recommendation-count').innerText = recommendation_count;#}
+{#        document.getElementById('left-game-keyphrase').innerText = keyphrase || 'N/A';#}
+{#        document.getElementById('left-game-summary').innerText = summary || 'N/A';#}
+{#        document.getElementById('left-game-description_phrases').innerText = description_phrases || 'N/A';#}
+{#        document.getElementById('left-game-details').style.display = 'block';#}
+{#    }#}
+{##}
+{#    function showRightGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {#}
+{#        document.getElementById('right-game-name').innerText = name;#}
+{#        document.getElementById('right-game-genre').innerText = genre;#}
+{#        document.getElementById('right-game-recommendation-count').innerText = recommendation_count;#}
+{#        document.getElementById('right-game-keyphrase').innerText = keyphrase || 'N/A';#}
+{#        document.getElementById('right-game-summary').innerText = summary || 'N/A';#}
+{#        document.getElementById('right-game-description_phrases').innerText = description_phrases || 'N/A';#}
+{#        document.getElementById('right-game-details').style.display = 'block';#}
+{#    }#}
+{#    </script>#}
+{##}
+{#</body>#}
+{#</html>#}
+
 
 {% load static %}
 <!DOCTYPE html>
@@ -217,75 +516,127 @@
     <title>Steam Searcher</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #1b2838;
-            color: #c7d5e0;
+    body {
+        background-color: #1b2838;
+        color: #c7d5e0;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        margin-top: 50px;
+        padding: 0 15px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .search-container {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .search-container img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 20px;
+    }
+    .columns-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: nowrap;
+    }
+    .left-column, .right-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        max-width: 45%;
+        box-sizing: border-box;
+    }
+    .left-column {
+        overflow-y: auto;
+        max-height: 1200px; /* Increased height for more scrollable area */
+    }
+    .left-column h2, .right-column h2 {
+        margin-bottom: 20px;
+    }
+    .left-column-cards {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .left-column-cards .game-card {
+        flex: 0 0 18%; /* 카드의 너비를 조절합니다 */
+        margin-right: 10px;
+    }
+    .game-card {
+        background-color: #2a475e;
+        border: 1px solid #3c6e8f;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: transform 0.2s;
+        text-align: center;
+    }
+    .game-card:hover {
+        transform: scale(1.05);
+    }
+    .game-card h2 {
+        font-size: 1.2rem;
+        margin: 0 0 10px;
+    }
+    .game-card p {
+        margin: 5px 0;
+        font-size: 1rem;
+    }
+    .game-detail-card {
+        background-color: #2a475e;
+        border-radius: 5px;
+        padding: 15px;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .pagination .page-link {
+        color: #c7d5e0;
+        background-color: #2a475e;
+        border: 1px solid #3c6e8f;
+    }
+    .pagination .page-item.active .page-link {
+        background-color: #1b2838;
+        border-color: #3c6e8f;
+    }
+    #left-game-details {
+        display: none; /* 클릭 전에는 하단 결과가 보이지 않도록 수정 */
+    }
+    /* Responsive adjustments */
+    @media (max-width: 1200px) {
+        .game-card {
+            flex: 1 0 200px;
         }
-        .container {
-            margin-top: 50px;
-            text-align: center;
+    }
+    @media (max-width: 992px) {
+        .game-card {
+            flex: 1 0 150px;
         }
-        .search-container {
-            text-align: center;
-            margin-bottom: 30px;
+    }
+    @media (max-width: 768px) {
+        .game-card {
+            flex: 1 0 100%;
         }
-        .search-container img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
-        }
-        .game {
-            background-color: #2a475e;
-            border: 1px solid #3c6e8f;
-            border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .game h2 {
-            color: #61dafb;
-        }
-        .top-game-card {
-            background-color: #2a475e;
-            border: 1px solid #3c6e8f;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-            text-align: left;
-            width: 18%;
-            cursor: pointer;  /* 클릭 가능하게 변경 */
-        }
-        .top-game-card h2 {
-            color: #61dafb;
+        .game-card h2 {
             font-size: 1rem;
         }
-        .top-game-card p {
-            font-size: 0.8rem;
+        .game-card p {
+            font-size: 0.9rem;
         }
-        .tag {
-            display: inline-block;
-            background-color: #61dafb;
-            color: #1b2838;
-            border-radius: 3px;
-            padding: 2px 6px;
-            margin: 2px;
-            font-size: 0.7rem;
+        .left-column, .right-column {
+            max-width: 100%;
+            padding: 10px;
+            max-height: none; /* Remove max-height for mobile view */
         }
-        .pagination .page-link {
-            color: #c7d5e0;
-            background-color: #2a475e;
-            border: 1px solid #3c6e8f;
-        }
-        .pagination .page-item.active .page-link {
-            background-color: #1b2838;
-            border-color: #3c6e8f;
-        }
-        #top-games-container {
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <div class="container">
@@ -299,56 +650,56 @@
                 <img src="{% static 'img/games/slider-2.jpg' %}" alt="Slider Image">
             {% endif %}
         </div>
-
-        {% if top_games %}
-        <h2>Top Games Based on Your Search</h2>
-        <div id="top-games-container">
-            {% for game in top_games %}
-                <div class="top-game-card" onclick="showGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">
-                    <h2>{{ game.name }}</h2>
-                    <p><strong>Genre:</strong> {{ game.genre }}</p>
-                    <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>
-                    <div>
-                        {% for phrase in game.top_phrases %}
-                            <span class="tag">{{ phrase }}</span>
-                        {% endfor %}
-                    </div>
+        {% if search_query %}
+        <div class="columns-container">
+            <div class="left-column">
+                <h2>Top Games Based on Your Search</h2>
+                <div class="left-column-cards">
+                    {% for game in top_games %}
+                        <div class="game-card" onclick="showLeftGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}','{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">
+                            <h2>{{ game.name }}</h2>
+                            <p><strong>Genre:</strong> {{ game.genre }}</p>
+                            <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-
+                <div id="left-game-details" class="game-detail-card">
+                    <h2 id="left-game-name"></h2>
+                    <p><strong>Genre:</strong> <span id="left-game-genre"></span></p>
+                    <p><strong>Recommendation Count:</strong> <span id="left-game-recommendation-count"></span></p>
+                    
+                    <p><strong>Keyphrase:</strong> <span id="left-game-keyphrase"></span></p>
+                    <p><strong>Summary:</strong> <span id="left-game-summary"></span></p>
+                    <p><strong>Description Phrases:</strong> <span id="left-game-description_phrases"></span></p>
+                </div>
+            </div>
+            <div class="right-column">
+                <h2>Database Search Results</h2>
+                <div class="game-list">
+                    {% for game in page_obj %}
+                        <div class="game-card" onclick="showRightGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}', '{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}', '{{ game.description_phrases|escapejs }}')">
+                            <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }}</a></h2>
+                            <p><strong>Genre:</strong> {{ game.genre }}</p>
+                            <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>
+                            <p><strong>Keyphrase:</strong> {{ game.keyphrase }}</p>
+                            <p><strong>Summary:</strong> {{ game.summary }}</p>
+                            <p><strong>Description Phrases:</strong> {{ game.description_phrases }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div id="right-game-details" class="game-detail-card">
+                    <h2 id="right-game-name"></h2>
+                    <p><strong>Genre:</strong> <span id="right-game-genre"></span></p>
+                    <p><strong>Recommendation Count:</strong> <span id="right-game-recommendation-count"></span></p>
+                    <p><strong>Keyphrase:</strong> <span id="right-game-keyphrase"></span></p>
+                    <p><strong>Summary:</strong> <span id="right-game-summary"></span></p>
+                    <p><strong>Description Phrases:</strong> <span id="right-game-description_phrases"></span></p>
+                </div>
+            </div>
         </div>
         {% endif %}
 
-        <div id="game-details" class="game" style="display:none;">
-            <h2 id="game-name"></h2>
-            <p><strong>Genre:</strong> <span id="game-genre"></span></p>
-            <p><strong>Recommendation Count:</strong> <span id="game-recommendation-count"></span></p>
-            <!-- <p><strong>Similarity:</strong> <span id="game-similarity"></span></p> -->
-            <!-- <p><strong>Top Phrases:</strong> <span id="game-top-phrases"></span></p> -->
-            <p><strong>keyphrase:</strong> <span id="game-keyphrase"></span></p>
-            <p><strong>summary:</strong> <span id="game-summary"></span></p>
-            <p><strong>description_phrases:</strong> <span id="game-description_phrases"></span></p>
-        </div>
-
         {% if page_obj %}
-        <div class="game-list">
-            {% if page_obj.object_list %}
-                {% for game in page_obj %}
-                    <div class="game">
-                        <h2><a href="{% url 'game_detail' game.appid %}" class="text-light">{{ game.name }}{% if game.formatted_release_date %} ({{ game.formatted_release_date }}){% endif %}</a></h2>
-                        <p><strong>Genre:</strong> {{ game.genre }}</p>
-                        <p><strong>Developer:</strong> {{ game.developer }}</p>
-                        <p><strong>Type:</strong> {{ game.type }}</p>
-                        <p><strong>Recommendations:</strong> {{ game.recommendation_count_fixed }}</p>
-                        <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
-                        <p><strong>summary:</strong> {{ game.summary }}</p>
-                        <p><strong>description_phrases:</strong> {{ game.description_phrases }}</p>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p>No games found matching your search criteria.</p>
-            {% endif %}
-        </div>
         <div class="pagination justify-content-center">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
@@ -359,7 +710,6 @@
                         <li class="page-item disabled"><span class="page-link">&laquo; first</span></li>
                         <li class="page-item disabled"><span class="page-link">previous</span></li>
                     {% endif %}
-
                     {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
                             <li class="page-item active"><span class="page-link">{{ num }}</span></li>
@@ -367,7 +717,6 @@
                             <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ num }}">{{ num }}</a></li>
                         {% endif %}
                     {% endfor %}
-
                     {% if page_obj.has_next %}
                         <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next</a></li>
                         <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
@@ -388,23 +737,28 @@
     {% include 'chatbot.html' %}
 
     <script>
-    function showGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {
-          console.log("Name: ", name);
-          console.log("Genre: ", genre);
-          console.log("Recommendation Count: ", recommendation_count);
-          console.log("Keyphrase: ", keyphrase);
-          console.log("Summary: ", summary);
-          console.log("Description Phrases: ", description_phrases);
-    
-        document.getElementById('game-name').innerText = name;
-        document.getElementById('game-genre').innerText = genre;
-        document.getElementById('game-recommendation-count').innerText = recommendation_count;
-        document.getElementById('game-keyphrase').innerText = keyphrase || 'N/A';
-        document.getElementById('game-summary').innerText = summary || 'N/A';
-        document.getElementById('game-description_phrases').innerText = description_phrases || 'N/A';
-        document.getElementById('game-details').style.display = 'block';
+    function showLeftGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {
+        document.getElementById('left-game-name').innerText = name;
+        document.getElementById('left-game-genre').innerText = genre;
+        document.getElementById('left-game-recommendation-count').innerText = recommendation_count;
+        document.getElementById('left-game-keyphrase').innerText = keyphrase || 'N/A';
+        document.getElementById('left-game-summary').innerText = summary || 'N/A';
+        document.getElementById('left-game-description_phrases').innerText = description_phrases || 'N/A';
+        document.getElementById('left-game-details').style.display = 'block';
     }
-</script>
+
+    function showRightGameDetails(name, genre, recommendation_count, keyphrase, summary, description_phrases) {
+        console.log("Game details:", name, genre, recommendation_count, keyphrase, summary, description_phrases);
+        document.getElementById('right-game-name').innerText = name;
+        document.getElementById('right-game-genre').innerText = genre;
+        document.getElementById('right-game-recommendation-count').innerText = recommendation_count;
+        document.getElementById('right-game-keyphrase').innerText = keyphrase || 'N/A';
+        document.getElementById('right-game-summary').innerText = summary || 'N/A';
+        document.getElementById('right-game-description_phrases').innerText = description_phrases || 'N/A';
+        document.getElementById('right-game-details').style.display = 'block';
+    }
+    </script>
 
 </body>
 </html>
+

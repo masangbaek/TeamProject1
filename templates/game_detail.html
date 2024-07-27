@@ -1,5 +1,82 @@
-{% load static %}
+{#{% load static %}#}
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>{{ game.name }}</title>#}
+{#    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">#}
+{#    <style>#}
+{#        body {#}
+{#            background-color: #1b2838;#}
+{#            color: #c7d5e0;#}
+{#        }#}
+{#        .container {#}
+{#            margin-top: 50px;#}
+{#        }#}
+{#        .game-details {#}
+{#            background-color: #2a475e;#}
+{#            border: 1px solid #3c6e8f;#}
+{#            border-radius: 5px;#}
+{#            padding: 20px;#}
+{#        }#}
+{#        .game-details h1 {#}
+{#            color: #61dafb;#}
+{#        }#}
+{#        .game-details img {#}
+{#            max-width: 100%;#}
+{#            height: auto;#}
+{#            margin-bottom: 10px;#}
+{#        }#}
+{#        .back-link {#}
+{#            margin-top: 20px;#}
+{#        }#}
+{#        .back-link a {#}
+{#            color: #c7d5e0;#}
+{#            text-decoration: none;#}
+{#            padding: 10px 20px;#}
+{#            background-color: #2a475e;#}
+{#            border-radius: 5px;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#    <div class="container">#}
+{#        <div class="game-details">#}
+{#            <!-- 이미지 추가: 이미지 파일이 있는 경우에만 표시 -->#}
+{#            {% if game.image_filename %}#}
+{#                <img src="{% static 'img/games/' %}{{ game.image_filename }}" alt="{{ game.name }}">#}
+{#            {% endif %}#}
+{#            <h1>{{ game.name }} ({{ game.release_date }})</h1>#}
+{#            <p><strong>Genre:</strong> {{ game.genre }}</p>#}
+{#            <p><strong>Developer:</strong> {{ game.developer }}</p>#}
+{#            <p><strong>Type:</strong> {{ game.type }}</p>#}
+{#            <p><strong>Recommendations:</strong> {{ game.recommendation_count }}</p>#}
+{#            <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>#}
+{#            <p><strong>summary:</strong> {{ game.summary }}</p>#}
+{#            <div class="content">#}
+{#                {% if game.detailed_description %}#}
+{#                    {{ game.detailed_description|safe }}#}
+{#                {% else %}#}
+{#                    <p>No description available for this game.</p>#}
+{#                {% endif %}#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="back-link">#}
+{#            <a href="{% url 'steam_searcher_list' %}?q={{ search_query }}">Back to search results</a>#}
+{#        </div>#}
+{#    </div>#}
+{#    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>#}
+{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>#}
+{#    <!-- 챗봇 포함 2024-07-25 -->#}
+{#    {% include 'chatbot.html' %}#}
+{#</body>#}
+{#</html>#}
+{##}
 
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +88,14 @@
         body {
             background-color: #1b2838;
             color: #c7d5e0;
+            font-family: Arial, sans-serif;
         }
         .container {
             margin-top: 50px;
+            padding: 0 15px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .game-details {
             background-color: #2a475e;
@@ -31,6 +113,7 @@
         }
         .back-link {
             margin-top: 20px;
+            text-align: center;
         }
         .back-link a {
             color: #c7d5e0;
@@ -38,13 +121,16 @@
             padding: 10px 20px;
             background-color: #2a475e;
             border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .back-link a:hover {
+            background-color: #3c6e8f;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="game-details">
-            <!-- 이미지 추가: 이미지 파일이 있는 경우에만 표시 -->
             {% if game.image_filename %}
                 <img src="{% static 'img/games/' %}{{ game.image_filename }}" alt="{{ game.name }}">
             {% endif %}
@@ -53,8 +139,8 @@
             <p><strong>Developer:</strong> {{ game.developer }}</p>
             <p><strong>Type:</strong> {{ game.type }}</p>
             <p><strong>Recommendations:</strong> {{ game.recommendation_count }}</p>
-            <p><strong>keyphrase:</strong> {{ game.keyphrase }}</p>
-            <p><strong>summary:</strong> {{ game.summary }}</p>
+            <p><strong>Keyphrase:</strong> {{ game.keyphrase }}</p>
+            <p><strong>Summary:</strong> {{ game.summary }}</p>
             <div class="content">
                 {% if game.detailed_description %}
                     {{ game.detailed_description|safe }}
@@ -70,10 +156,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- 챗봇 포함 2024-07-25 -->
     {% include 'chatbot.html' %}
 </body>
 </html>
-
-
-

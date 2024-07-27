@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +31,7 @@
             z-index: 1000;
         }
         #chatbot-header {
-            background-color: #007bff; /* 검색 버튼 색상과 통일 */
+            background-color: #007bff;
             color: white;
             padding: 10px;
             text-align: center;
@@ -69,12 +68,12 @@
             padding: 5px;
             border: 1px solid #3c6e8f;
             border-radius: 5px;
-            background-color: #007bff; /* 검색 버튼 색상과 통일 */
+            background-color: #007bff;
             color: white;
             cursor: pointer;
         }
         #chatbot-input button:hover {
-            background-color: #0056b3; /* 검색 버튼 호버 색상과 통일 */
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -86,13 +85,12 @@
             <div id="chatbot-messages"></div>
             <div id="chatbot-input">
                 <form id="chatbot-form">
-                    <input type="text" id="chatbot-input-field" placeholder="메시지를 입력하세요">
+                    <input type="text" id="chatbot-input-field" placeholder="Please enter your message">
                     <button type="submit">Send</button>
                 </form>
             </div>
         </div>
     </div>
-
     <script>
         function toggleChatbot() {
             var chatbotWindow = document.getElementById('chatbot-window');
@@ -102,8 +100,6 @@
                 chatbotWindow.style.display = 'none';
             }
         }
-
-        // 브라우저 알림을 표시하는 함수
         function showNotification(message) {
             if ('Notification' in window) {
                 if (Notification.permission === 'granted') {
@@ -119,51 +115,40 @@
                 console.log('브라우저가 알림을 지원하지 않습니다.');
             }
         }
-
-        // 특정 시간에 알림을 표시하는 함수
         function checkTimeForAlert() {
             const now = new Date();
             const currentHour = now.getHours();
             const currentMinute = now.getMinutes();
             const chatBox = document.getElementById('chatbot-messages');
-
             if (currentHour === 12 && currentMinute === 50) {
                 const lunchMessage = document.createElement('div');
                 lunchMessage.className = 'chat-message bot-message';
-                lunchMessage.innerHTML = '자비스: 지휘관님, 점심 먹을 시간입니다.';
+                lunchMessage.innerHTML = "Jarvis: Conmmander, it's time for lunch.";
                 chatBox.appendChild(lunchMessage);
-                showNotification('지휘관님, 점심 먹을 시간입니다.');
+                showNotification("Jarvis: Conmmander, it's time for lunch.");
             } else if (currentHour === 17 && currentMinute === 50) {
                 const dinnerMessage = document.createElement('div');
                 dinnerMessage.className = 'chat-message bot-message';
-                dinnerMessage.innerHTML = '자비스: 지휘관님, 저녁 먹을 시간입니다.';
+                dinnerMessage.innerHTML = "Jarvis: Conmmander, it's time for dinner.";
                 chatBox.appendChild(dinnerMessage);
-                showNotification('지휘관님, 저녁 먹을 시간입니다.');
+                showNotification("Jarvis: Conmmander, it's time for dinner.");
             }
         }
-
-        // 매 분마다 체크
-        setInterval(checkTimeForAlert, 60000);  // 1분마다 체크
-        checkTimeForAlert();  // 페이지 로드 시 한 번 체크
-
-        // 페이지 로드 시 알림 권한 요청
+        setInterval(checkTimeForAlert, 60000);
+        checkTimeForAlert();
         if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
             Notification.requestPermission();
         }
-
-        // 메시지를 보내는 함수
         document.getElementById('chatbot-form').addEventListener('submit', function(event) {
-            event.preventDefault();  // 폼 제출을 막음
+            event.preventDefault();
             const messageInput = document.getElementById('chatbot-input-field');
             const message = messageInput.value;
-
             if (message.trim() !== '') {
                 const chatBox = document.getElementById('chatbot-messages');
                 const userMessage = document.createElement('div');
                 userMessage.className = 'chat-message user-message';
-                userMessage.innerHTML = `사용자: ${message}`;
+                userMessage.innerHTML = `Commander: ${message}`;
                 chatBox.appendChild(userMessage);
-
                 fetch('/chatbot/respond/', {
                     method: 'POST',
                     headers: {
@@ -176,18 +161,16 @@
                 .then(data => {
                     const botMessage = document.createElement('div');
                     botMessage.className = 'chat-message bot-message';
-                    botMessage.innerHTML = `자비스: ${data.reply}`;  // 응답 메시지를 HTML로 설정
+                    botMessage.innerHTML = `Jarvis: ${data.reply}`;
                     chatBox.appendChild(botMessage);
-                    chatBox.scrollTop = chatBox.scrollHeight;  // 채팅 박스를 스크롤 하단으로 이동
+                    chatBox.scrollTop = chatBox.scrollHeight;
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
-                messageInput.value = '';  // 입력 필드 초기화
+                messageInput.value = '';
             }
         });
     </script>
 </body>
 </html>
-
