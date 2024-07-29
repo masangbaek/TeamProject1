@@ -326,7 +326,10 @@
 {#</body>#}
 {#</html>#}
 
+
 {% load static %}
+{% load custom_filters %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -585,7 +588,7 @@
                                 <h2><a href="https://store.steampowered.com/app/{{ game.appid }}/" class="text-light" target="_blank">{{ game.name }}</a></h2>
                                 <p><strong>Genre:</strong> {{ game.genre }}</p>
                                 <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>
-                                <!-- <p><strong>similarity:</strong>{{ game.similarity }}</p> -->
+                                <p><strong>Similarity:</strong> {{ game.similarity|floatformat:2 }}%</p>
                             </div>
                         {% endfor %}
                     </div>
@@ -595,7 +598,6 @@
                     <p><strong>Genre:</strong> <span id="left-game-genre"></span></p>
                     <p><strong>Recommendation Count:</strong> <span id="left-game-recommendation-count"></span></p>
                     <p><strong>Keyphrase:</strong> <span id="left-game-keyphrase"></span></p>
-                    <!-- <p><strong>Summary:</strong> <span id="left-game-summary"></span></p> -->
                 </div>
                 {% if glove_results %}
                     <h2>GloVe on Your Search</h2>
@@ -605,7 +607,7 @@
                                 <h2><a href="https://store.steampowered.com/app/{{ result.appid }}/" class="text-light" target="_blank">{{ result.name }}</a></h2>
                                 <p><strong>Genre:</strong> {{ result.genre }}</p>
                                 <p><strong>Recommendation Count:</strong> {{ result.recommendation_count }}</p>
-                                <p><strong>Similarity:</strong> {{ result.similarity|floatformat:2 }}</p>
+                                <p><strong>Similarity:</strong> {{ result.similarity|percentage }}</p>
                             </div>
                         {% endfor %}
                     </div>
