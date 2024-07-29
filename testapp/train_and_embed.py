@@ -52,7 +52,7 @@ def fetch_all_games():
     while True:
         print(f"Fetching games with offset: {offset}")
         response = supabase.table('steamsearcher_duplicate').select(
-            'appid, name, genre, recommendation_count, description_phrases', 'keyphrase', 'summary' ).range(offset, offset + limit - 1).execute()
+            'appid, name, genre, recommendation_count, description_phrases, keyphrase, summary' ).range(offset, offset + limit - 1).execute()
         games = response.data
         if not games:
             break
@@ -87,8 +87,7 @@ def embed_and_save_game_data(model_path, embed_path):
             # 추가
             'keyphrase': game['keyphrase'],
             'summary': game['summary'],
-            'embedding': game_embedding,
-            'embedding_words': game_words
+            'embedding': game_embedding
         })
 
     df = pd.DataFrame(embeddings)
