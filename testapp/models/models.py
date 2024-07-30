@@ -6,7 +6,7 @@ class SteamSearcher(models.Model):
     name = models.CharField(max_length=255)
     genre = models.CharField(max_length=255)
     detailed_description = models.TextField()
-    recommendation_count = models.FloatField()
+    recommendation_count = models.IntegerField()
     type = models.CharField(max_length=255)
     developer = models.CharField(max_length=255)
     release_date = models.TextField()  # 날짜 형식이 특정되지 않았으므로 TextField로 사용

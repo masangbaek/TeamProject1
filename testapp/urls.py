@@ -5,7 +5,7 @@ from django.urls import path, include
 from .views import steam_searcher_list, game_detail, chatbot_respond, category_reviews
 
 urlpatterns = [
-    path('', steam_searcher_list, name='steam_searcher_list'),
+    path('', steam_searcher_list, name='home'),
     path('game/<int:appid>/', game_detail, name='game_detail'),
     # 챗봇 응답 URL 패턴 추가
     path('chatbot/respond/', chatbot_respond, name='chatbot_respond'),
