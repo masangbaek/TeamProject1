@@ -1,0 +1,722 @@
+{#{% load static %}#}
+{#{% load custom_filters %}#}
+{##}
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>Steam Searcher</title>#}
+{#    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">#}
+{#    <style>#}
+{#        body {#}
+{#            background-color: #1b2838;#}
+{#            color: #c7d5e0;#}
+{#            font-family: Arial, sans-serif;#}
+{#        }#}
+{#        .container {#}
+{#            margin-top: 50px;#}
+{#            padding: 0 15px;#}
+{#            max-width: 1200px;#}
+{#            margin-left: auto;#}
+{#            margin-right: auto;#}
+{#        }#}
+{#        .search-container {#}
+{#            text-align: center;#}
+{#            margin-bottom: 30px;#}
+{#        }#}
+{#        .carousel-item img {#}
+{#            width: 100%;#}
+{#            height: auto;#}
+{#        }#}
+{#        .card {#}
+{#            background-color: #2a475e;#}
+{#            border: 1px solid #3c6e8f;#}
+{#            border-radius: 5px;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{#        .card-body {#}
+{#            color: #c7d5e0;#}
+{#        }#}
+{#        .card-title {#}
+{#            color: #007bff;#}
+{#        }#}
+{#        .btn-primary {#}
+{#            background-color: #007bff;#}
+{#            border-color: #007bff;#}
+{#        }#}
+{#        .columns-container {#}
+{#            display: flex;#}
+{#            justify-content: space-between;#}
+{#            gap: 20px;#}
+{#            flex-wrap: nowrap;#}
+{#        }#}
+{#        .left-column, .right-column {#}
+{#            flex: 1;#}
+{#            display: flex;#}
+{#            flex-direction: column; #}
+{#            padding: 15px;#}
+{#            max-width: 45%;#}
+{#            box-sizing: border-box;#}
+{#        }#}
+{#        .left-column {#}
+{#            overflow-y: auto;#}
+{#            max-height: 1200px; /* Increased height for more scrollable area */#}
+{#        }#}
+{#        .left-column h2, .right-column h2 {#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{#        .left-column-cards {#}
+{#            display: flex;#}
+{#            flex-wrap: nowrap;#}
+{#            overflow-x: auto;#}
+{#            width: 100%;#}
+{#            margin-bottom: 20px;#}
+{#        }#}
+{#        .left-column-cards .game-card {#}
+{#            flex: 0 0 18%; /* 카드의 너비를 조절합니다 */#}
+{#            margin-right: 10px;#}
+{#        }#}
+{#        .game-card {#}
+{#            background-color: #2a475e;#}
+{#            border: 1px solid #3c6e8f;#}
+{#            /* border-radius: 5px; */#}
+{#            padding: 15px;#}
+{#            margin-bottom: 15px;#}
+{#            cursor: pointer;#}
+{#            transition: transform 0.2s;#}
+{#            text-align: center;#}
+{#        }#}
+{#        .game-card:hover {#}
+{#            transform: scale(1.05);#}
+{#        }#}
+{#        .game-card h2 {#}
+{#            font-size: 1.2rem;#}
+{#            margin: 0 0 10px;#}
+{#            color: #007bff; /* 파란색으로 변경 */#}
+{#        }#}
+{#        .game-card p {#}
+{#            margin: 5px 0;#}
+{#            font-size: 1rem;#}
+{#        }#}
+{#        .game-detail-card {#}
+{#            background-color: #2a475e;#}
+{#            border-radius: 5px;#}
+{#            padding: 15px;#}
+{#            margin-top: 20px;#}
+{#            width: 100%;#}
+{#        }#}
+{#        .pagination .page-link {#}
+{#            color: #c7d5e0;#}
+{#            background-color: #2a475e;#}
+{#            border: 1px solid #3c6e8f;#}
+{#        }#}
+{#        .pagination .page-item.active .page-link {#}
+{#            background-color: #1b2838;#}
+{#            border-color: #3c6e8f;#}
+{#        }#}
+{#        #left-game-details {#}
+{#            display: none; /* 클릭 전에는 하단 결과가 보이지 않도록 수정 */#}
+{#        }#}
+{#        /* Responsive adjustments */#}
+{#        @media (max-width: 1200px) {#}
+{#            .game-card {#}
+{#                flex: 1 0 200px;#}
+{#            }#}
+{#        }#}
+{#        @media (max-width: 992px) {#}
+{#            .game-card {#}
+{#                flex: 1 0 150px;#}
+{#            }#}
+{#        }#}
+{#        @media (max-width: 768px) {#}
+{#            .game-card {#}
+{#                flex: 1 0 100%;#}
+{#            }#}
+{#            .game-card h2 {#}
+{#                font-size: 1rem;#}
+{#            }#}
+{#            .game-card p {#}
+{#                font-size: 0.9rem;#}
+{#            }#}
+{#            .left-column, .right-column {#}
+{#                max-width: 100%;#}
+{#                padding: 10px;#}
+{#                max-height: none; /* Remove max-height for mobile view */#}
+{#            }#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#<!-- 헤더 영역 -->#}
+{#    <nav class="navbar navbar-expand-lg navbar-dark">#}
+{#        <a class="navbar-brand" href="#">Steam Searcher</a>#}
+{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
+{#            <span class="navbar-toggler-icon"></span>#}
+{#        </button>#}
+{#        <div class="collapse navbar-collapse" id="navbarNav">#}
+{#            <ul class="navbar-nav ml-auto">#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Home</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Categories</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Special Offers</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="#">Top Sellers</a>#}
+{#                </li>#}
+{#            </ul>#}
+{#        </div>#}
+{#    </nav>#}
+{##}
+{#    <div class="container">#}
+{#        <div class="search-container">#}
+{#            <h1><a href="/" style="color: #c7d5e0; text-decoration: none;">Steam Searcher</a></h1>#}
+{#            <form method="GET" class="form-inline justify-content-center">#}
+{#                <input type="text" id="search-input" name="q" placeholder="Search..." value="{{ search_query }}" class="form-control mr-2">#}
+{#                <button type="submit" class="btn btn-primary">Search</button>#}
+{#            </form>#}
+{#            {% if search_query %}#}
+{#                <a href="{% url 'category_reviews' %}" class="btn btn-secondary mt-3">View Category Reviews</a>#}
+{#            {% endif %}#}
+{#        </div>#}
+{##}
+{#        {% if not search_query %}#}
+{#        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">#}
+{#            <ol class="carousel-indicators">#}
+{#                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>#}
+{#                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>#}
+{#                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>#}
+{#            </ol>#}
+{#            <div class="carousel-inner">#}
+{#                <div class="carousel-item active">#}
+{#                    <img src="{% static 'img/games/slider-1.jpg' %}" alt="First slide">#}
+{#                </div>#}
+{#                <div class="carousel-item">#}
+{#                    <img src="{% static 'img/games/slider-3.jpg' %}" alt="Second slide">#}
+{#                </div>#}
+{#                <div class="carousel-item">#}
+{#                    <img src="{% static 'img/games/slider-4.jpg' %}" alt="Third slide">#}
+{#                </div>#}
+{#            </div>#}
+{#            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">#}
+{#                <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+{#                <span class="sr-only">Previous</span>#}
+{#            </a>#}
+{#            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">#}
+{#                <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
+{#                <span class="sr-only">Next</span>#}
+{#            </a>#}
+{#        </div>#}
+{##}
+{#        <div class="row mt-4">#}
+{#            <div class="col-md-4">#}
+{#                <div class="card">#}
+{#                    <img src="{% static 'img/games/1.jpg' %}" class="card-img-top" alt="Game 1">#}
+{#                    <div class="card-body">#}
+{#                        <h5 class="card-title">PUBG: BATTLEGROUNDS</h5>#}
+{#                        <p class="card-text">Description of PUBG: BATTLEGROUNDS.</p>#}
+{#                        <a href="#" class="btn btn-primary">View Game</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-md-4">#}
+{#                <div class="card">#}
+{#                    <img src="{% static 'img/games/2.jpg' %}" class="card-img-top" alt="Game 2">#}
+{#                    <div class="card-body">#}
+{#                        <h5 class="card-title">Battlefield 2042</h5>#}
+{#                        <p class="card-text">Description of popular game 2.</p>#}
+{#                        <a href="#" class="btn btn-primary">View Game</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-md-4">#}
+{#                <div class="card">#}
+{#                    <img src="{% static 'img/games/3.jpg' %}" class="card-img-top" alt="Game 3">#}
+{#                    <div class="card-body">#}
+{#                        <h5 class="card-title">World of Warcraft</h5>#}
+{#                        <p class="card-text">Description of popular game 3.</p>#}
+{#                        <a href="#" class="btn btn-primary">View Game</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        {% endif %}#}
+{##}
+{#        {% if search_query %}#}
+{#        <div class="columns-container">#}
+{#            <div class="right-column" style="background-color: #2a475e; padding: 15px; border-radius: 5px;">#}
+{#                <h2>Database Search Results</h2>#}
+{#                <div class="game-list">#}
+{#                    {% if page_obj %}#}
+{#                        {% for game in page_obj %}#}
+{#                            <div class="game-card">#}
+{#                                <h2><a href="https://store.steampowered.com/app/{{ game.appid }}/" target="_blank">{{ game.name }}</a></h2>#}
+{#                                <p><strong>Genre:</strong> {{ game.genre }}</p>#}
+{#                                <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
+{#                                <p><strong>Keyphrase:</strong> {{ game.keyphrase }}</p>#}
+{#                                <p><strong>Summary:</strong> {{ game.summary }}</p>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    {% else %}#}
+{#                        <p>No games found.</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div id="right-game-details" class="game-detail-card">#}
+{#                    <h2 id="right-game-name"></h2>#}
+{#                    <p><strong>Genre:</strong> <span id="right-game-genre"></span></p>#}
+{#                    <p><strong>Recommendation Count:</strong> <span id="right-game-recommendation-count"></span></p>#}
+{#                    <p><strong>Keyphrase:</strong> <span id="right-game-keyphrase"></span></p>#}
+{#                    <p><strong>Summary:</strong> <span id="right-game-summary"></span></p>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="left-column" style="background-color: #1c3f4a; padding: 15px; border-radius: 5px;">#}
+{#                {% if top_games %}#}
+{#                    <h2>Word2Vec on Your Search</h2>#}
+{#                    <div class="left-column-cards">#}
+{#                        {% for game in top_games %}#}
+{#                            <div class="game-card" onclick="showLeftGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}','{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}')">#}
+{#                                <h2><a href="https://store.steampowered.com/app/{{ game.appid }}/" class="text-light" target="_blank">{{ game.name }}</a></h2>#}
+{#                                <p><strong>Genre:</strong> {{ game.genre }}</p>#}
+{#                                <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>#}
+{#                                <p><strong>Similarity:</strong> {{ game.similarity|floatformat:2 }}%</p>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                <div id="left-game-details" class="game-detail-card">#}
+{#                    <h2 id="left-game-name"></h2>#}
+{#                    <p><strong>Genre:</strong> <span id="left-game-genre"></span></p>#}
+{#                    <p><strong>Recommendation Count:</strong> <span id="left-game-recommendation-count"></span></p>#}
+{#                    <p><strong>Keyphrase:</strong> <span id="left-game-keyphrase"></span></p>#}
+{#                </div>#}
+{#                {% if glove_results %}#}
+{#                    <h2>GloVe on Your Search</h2>#}
+{#                    <div class="left-column-cards">#}
+{#                        {% for result in glove_results %}#}
+{#                            <div class="game-card">#}
+{#                                <h2><a href="https://store.steampowered.com/app/{{ result.appid }}/" class="text-light" target="_blank">{{ result.name }}</a></h2>#}
+{#                                <p><strong>Genre:</strong> {{ result.genre }}</p>#}
+{#                                <p><strong>Recommendation Count:</strong> {{ result.recommendation_count }}</p>#}
+{#                                <p><strong>Similarity:</strong> {{ result.similarity|percentage }}</p>#}
+{#                            </div>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                <!-- 광고 배너 추가 -->#}
+{#                <div class="ad-banner">#}
+{#                    <img src="{% static 'img/games/ad1.png' %}" alt="Ad Banner 1" class="img-fluid">#}
+{#                </div>#}
+{#                <div class="ad-banner">#}
+{#                    <img src="{% static 'img/games/ad2.png' %}" alt="Ad Banner 2" class="img-fluid">#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        {% endif %}#}
+{##}
+{#        {% if page_obj %}#}
+{#        <div class="pagination justify-content-center">#}
+{#            <nav aria-label="Page navigation">#}
+{#                <ul class="pagination">#}
+{#                    {% if page_obj.has_previous %}#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page=1">&laquo; first</a></li>#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">&#9664; previous</a></li>#}
+{#                    {% else %}#}
+{#                        <li class="page-item disabled"><span class="page-link">&laquo; first</span></li>#}
+{#                        <li class="page-item disabled"><span class="page-link">&#9664; previous</span></li>#}
+{#                    {% endif %}#}
+{##}
+{#                    {% for num in page_obj.paginator.page_range %}#}
+{#                        {% if page_obj.number == num %}#}
+{#                            <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>#}
+{#                        {% else %}#}
+{#                            <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ num }}">{{ num }}</a></li>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{##}
+{#                    {% if page_obj.has_next %}#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next &#9654;</a></li>#}
+{#                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>#}
+{#                    {% else %}#}
+{#                        <li class="page-item disabled"><span class="page-link">next &#9654;</span></li>#}
+{#                        <li class="page-item disabled"><span class="page-link">last &raquo;</span></li>#}
+{#                    {% endif %}#}
+{#                </ul>#}
+{#            </nav>#}
+{#        </div>#}
+{#        {% endif %}#}
+{#    </div>#}
+{##}
+{#    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>#}
+{#    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>#}
+{#    {% include 'chatbot.html' %}#}
+{#    <script src="{% static 'js/scripts.js' %}"></script>#}
+{#</body>#}
+{#</html>#}
+{##}
+
+{% load static %}
+{% load custom_filters %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Searcher</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1b2838;
+            color: #c7d5e0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 0 15px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+        }
+        .card {
+            background-color: #2a475e;
+            border: 1px solid #3c6e8f;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .card-body {
+            color: #c7d5e0;
+        }
+        .card-title {
+            color: #007bff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .columns-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: nowrap;
+        }
+        .left-column, .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column; 
+            padding: 15px;
+            max-width: 45%;
+            box-sizing: border-box;
+        }
+        .left-column {
+            overflow-y: auto;
+            max-height: 1200px; /* Increased height for more scrollable area */
+        }
+        .left-column h2, .right-column h2 {
+            margin-bottom: 20px;
+        }
+        .left-column-cards {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .left-column-cards .game-card {
+            flex: 0 0 18%; /* 카드의 너비를 조절합니다 */
+            margin-right: 10px;
+        }
+        .game-card {
+            background-color: #2a475e;
+            border: 1px solid #3c6e8f;
+            /* border-radius: 5px; */
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-align: center;
+        }
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+        .game-card h2 {
+            font-size: 1.2rem;
+            margin: 0 0 10px;
+            color: #007bff; /* 파란색으로 변경 */
+        }
+        .game-card p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+        .game-detail-card {
+            background-color: #2a475e;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .pagination .page-link {
+            color: #c7d5e0;
+            background-color: #2a475e;
+            border: 1px solid #3c6e8f;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #1b2838;
+            border-color: #3c6e8f;
+        }
+        #left-game-details {
+            display: none; /* 클릭 전에는 하단 결과가 보이지 않도록 수정 */
+        }
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .game-card {
+                flex: 1 0 200px;
+            }
+        }
+        @media (max-width: 992px) {
+            .game-card {
+                flex: 1 0 150px;
+            }
+        }
+        @media (max-width: 768px) {
+            .game-card {
+                flex: 1 0 100%;
+            }
+            .game-card h2 {
+                font-size: 1rem;
+            }
+            .game-card p {
+                font-size: 0.9rem;
+            }
+            .left-column, .right-column {
+                max-width: 100%;
+                padding: 10px;
+                max-height: none; /* Remove max-height for mobile view */
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- 헤더 영역 -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">Steam Searcher</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'category_reviews' %}">Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Special Offers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Top Sellers</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="search-container">
+            <h1><a href="/" style="color: #c7d5e0; text-decoration: none;">Steam Searcher</a></h1>
+            <form method="GET" class="form-inline justify-content-center">
+                <input type="text" id="search-input" name="q" placeholder="Search..." value="{{ search_query }}" class="form-control mr-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+{#            {% if search_query %}#}
+{#                <a href="{% url 'category_reviews' %}" class="btn btn-secondary mt-3">View Category Reviews</a>#}
+{#            {% endif %}#}
+        </div>
+
+        {% if not search_query %}
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'img/games/slider-1.jpg' %}" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/games/slider-3.jpg' %}" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/games/slider-4.jpg' %}" alt="Third slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'img/games/1.jpg' %}" class="card-img-top" alt="Game 1">
+                    <div class="card-body">
+                        <h5 class="card-title">PUBG: BATTLEGROUNDS</h5>
+                        <p class="card-text">Description of PUBG: BATTLEGROUNDS.</p>
+                        <a href="#" class="btn btn-primary">View Game</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'img/games/2.jpg' %}" class="card-img-top" alt="Game 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Battlefield 2042</h5>
+                        <p class="card-text">Description of popular game 2.</p>
+                        <a href="#" class="btn btn-primary">View Game</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="{% static 'img/games/3.jpg' %}" class="card-img-top" alt="Game 3">
+                    <div class="card-body">
+                        <h5 class="card-title">World of Warcraft</h5>
+                        <p class="card-text">Description of popular game 3.</p>
+                        <a href="#" class="btn btn-primary">View Game</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if search_query %}
+        <div class="columns-container">
+            <div class="right-column" style="background-color: #2a475e; padding: 15px; border-radius: 5px;">
+                <h2>Database Search Results</h2>
+                <div class="game-list">
+                    {% if page_obj %}
+                        {% for game in page_obj %}
+                            <div class="game-card">
+                                <h2><a href="https://store.steampowered.com/app/{{ game.appid }}/" target="_blank">{{ game.name }}</a></h2>
+                                <p><strong>Genre:</strong> {{ game.genre }}</p>
+                                <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>
+                                <p><strong>Keyphrase:</strong> {{ game.keyphrase }}</p>
+                                <p><strong>Summary:</strong> {{ game.summary }}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No games found.</p>
+                    {% endif %}
+                </div>
+                <div id="right-game-details" class="game-detail-card">
+                    <h2 id="right-game-name"></h2>
+                    <p><strong>Genre:</strong> <span id="right-game-genre"></span></p>
+                    <p><strong>Recommendation Count:</strong> <span id="right-game-recommendation-count"></span></p>
+                    <p><strong>Keyphrase:</strong> <span id="right-game-keyphrase"></span></p>
+                    <p><strong>Summary:</strong> <span id="right-game-summary"></span></p>
+                </div>
+            </div>
+            <div class="left-column" style="background-color: #1c3f4a; padding: 15px; border-radius: 5px;">
+                {% if top_games %}
+                    <h2>Word2Vec on Your Search</h2>
+                    <div class="left-column-cards">
+                        {% for game in top_games %}
+                            <div class="game-card" onclick="showLeftGameDetails('{{ game.name }}', '{{ game.genre }}', '{{ game.recommendation_count }}','{{ game.keyphrase|escapejs }}', '{{ game.summary|escapejs }}')">
+                                <h2><a href="https://store.steampowered.com/app/{{ game.appid }}/" class="text-light" target="_blank">{{ game.name }}</a></h2>
+                                <p><strong>Genre:</strong> {{ game.genre }}</p>
+                                <p><strong>Recommendation Count:</strong> {{ game.recommendation_count }}</p>
+                                <p><strong>Similarity:</strong> {{ game.similarity|floatformat:2 }}%</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div id="left-game-details" class="game-detail-card">
+                    <h2 id="left-game-name"></h2>
+                    <p><strong>Genre:</strong> <span id="left-game-genre"></span></p>
+                    <p><strong>Recommendation Count:</strong> <span id="left-game-recommendation-count"></span></p>
+                    <p><strong>Keyphrase:</strong> <span id="left-game-keyphrase"></span></p>
+                </div>
+                {% if glove_results %}
+                    <h2>GloVe on Your Search</h2>
+                    <div class="left-column-cards">
+                        {% for result in glove_results %}
+                            <div class="game-card">
+                                <h2><a href="https://store.steampowered.com/app/{{ result.appid }}/" class="text-light" target="_blank">{{ result.name }}</a></h2>
+                                <p><strong>Genre:</strong> {{ result.genre }}</p>
+                                <p><strong>Recommendation Count:</strong> {{ result.recommendation_count }}</p>
+                                <p><strong>Similarity:</strong> {{ result.similarity|percentage }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <!-- 광고 배너 추가 -->
+                <div class="ad-banner">
+                    <img src="{% static 'img/games/ad1.png' %}" alt="Ad Banner 1" class="img-fluid">
+                </div>
+                <div class="ad-banner">
+                    <img src="{% static 'img/games/ad2.png' %}" alt="Ad Banner 2" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if page_obj %}
+        <div class="pagination justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page=1">&laquo; first</a></li>
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.previous_page_number }}">&#9664; previous</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">&laquo; first</span></li>
+                        <li class="page-item disabled"><span class="page-link">&#9664; previous</span></li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.next_page_number }}">next &#9654;</a></li>
+                        <li class="page-item"><a class="page-link" href="?q={{ search_query }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">next &#9654;</span></li>
+                        <li class="page-item disabled"><span class="page-link">last &raquo;</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% include 'chatbot.html' %}
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>

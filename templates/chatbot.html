@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        #chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        #chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: #1b2838;
+            border: 1px solid #3c6e8f;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            color: #c7d5e0;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+        }
+        #chatbot-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            font-size: 1.2em;
+        }
+        #chatbot-messages {
+            padding: 10px;
+            overflow-y: auto;
+            height: calc(100% - 100px);
+            font-size: 0.9em;
+            color: #c7d5e0;
+        }
+        #chatbot-input {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #2a475e;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        #chatbot-input input {
+            width: 75%;
+            padding: 5px;
+            border: 1px solid #3c6e8f;
+            border-radius: 5px;
+            background-color: #1b2838;
+            color: #c7d5e0;
+        }
+        #chatbot-input button {
+            width: 20%;
+            padding: 5px;
+            border: 1px solid #3c6e8f;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        #chatbot-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbot">
+        <img src="{% static 'img/games/chat3.png' %}" id="chatbot-icon" onclick="toggleChatbot()" alt="Chatbot Icon">
+        <div id="chatbot-window">
+            <div id="chatbot-header">Visual Wizards Chatbot</div>
+            <div id="chatbot-messages"></div>
+            <div id="chatbot-input">
+                <form id="chatbot-form">
+                    <input type="text" id="chatbot-input-field" placeholder="Please enter your message">
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleChatbot() {
+            var chatbotWindow = document.getElementById('chatbot-window');
+            if (chatbotWindow.style.display === 'none' || chatbotWindow.style.display === '') {
+                chatbotWindow.style.display = 'block';
+            } else {
+                chatbotWindow.style.display = 'none';
+            }
+        }
+        function showNotification(message) {
+            if ('Notification' in window) {
+                if (Notification.permission === 'granted') {
+                    new Notification(message);
+                } else if (Notification.permission !== 'denied') {
+                    Notification.requestPermission().then(function (permission) {
+                        if (permission === 'granted') {
+                            new Notification(message);
+                        }
+                    });
+                }
+            } else {
+                console.log('브라우저가 알림을 지원하지 않습니다.');
+            }
+        }
+        function checkTimeForAlert() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const chatBox = document.getElementById('chatbot-messages');
+            if (currentHour === 12 && currentMinute === 50) {
+                const lunchMessage = document.createElement('div');
+                lunchMessage.className = 'chat-message bot-message';
+                lunchMessage.innerHTML = "Jarvis: Conmmander, it's time for lunch.";
+                chatBox.appendChild(lunchMessage);
+                showNotification("Jarvis: Conmmander, it's time for lunch.");
+            } else if (currentHour === 17 && currentMinute === 50) {
+                const dinnerMessage = document.createElement('div');
+                dinnerMessage.className = 'chat-message bot-message';
+                dinnerMessage.innerHTML = "Jarvis: Conmmander, it's time for dinner.";
+                chatBox.appendChild(dinnerMessage);
+                showNotification("Jarvis: Conmmander, it's time for dinner.");
+            }
+        }
+        setInterval(checkTimeForAlert, 60000);
+        checkTimeForAlert();
+        if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+            Notification.requestPermission();
+        }
+        document.getElementById('chatbot-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('chatbot-input-field');
+            const message = messageInput.value;
+            if (message.trim() !== '') {
+                const chatBox = document.getElementById('chatbot-messages');
+                const userMessage = document.createElement('div');
+                userMessage.className = 'chat-message user-message';
+                userMessage.innerHTML = `Commander: ${message}`;
+                chatBox.appendChild(userMessage);
+                fetch('/chatbot/respond/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                    body: `message=${encodeURIComponent(message)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'chat-message bot-message';
+                    botMessage.innerHTML = `Jarvis: ${data.reply}`;
+                    chatBox.appendChild(botMessage);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                messageInput.value = '';
+            }
+        });
+    </script>
+     <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>
